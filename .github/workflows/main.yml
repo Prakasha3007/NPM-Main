@@ -1,21 +1,22 @@
-name: Main Workflow
+name: Main Publish Workflow
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  npm-workflow:
+  call-reusable:
     uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
-
     with:
-      command: install
+      command: "echo 'Running main command'"
+      working_dir: "."
       verbose: true
-      customCommand: build
-      customRegistry: https://custom.registry.url
-      customFeed: feed-name
-      customEndpoint: https://custom.endpoint.url
-      publishRegistry: https://publish.registry.url
-      publishFeed: publish-feed-name
-      publishEndpoint: https://publish.endpoint.url
+      custom_command: "echo 'Executing custom command'"
+      custom_registry: "https://custom.registry.url"
+      custom_feed: "custom-feed"
+      custom_endpoint: "https://custom.endpoint.url"
+      publish_feed: "publish-feed"
+      publish_package_metadata: "metadata-file.json"
+      publish_endpoint: "https://publish.endpoint.url"
