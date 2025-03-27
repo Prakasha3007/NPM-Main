@@ -7,7 +7,7 @@ on:
 
 jobs:
   npm-workflow:
-    uses: ./.github/workflows/reusable-npm.yml
+    uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
     with:
       command: install
       workingDir: ./my-app
