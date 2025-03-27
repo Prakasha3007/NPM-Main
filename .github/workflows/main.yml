@@ -6,16 +6,17 @@ on:
       - main
 
 jobs:
-  run-tests:
-    uses: kirandevops1993/VS-TEST-REUSABLE/.github/workflows/VStest-reusable.yml@main
+  npm-workflow:
+    uses: ./.github/workflows/reusable-npm.yml
     with:
-      dotnet-version: "7.0.x"
-      test-assembly: "**/*Tests.dll" 
-      test-filter-criteria: "TestCategory=Unit"
-      run-settings-file: "test.runsettings"
-      code-coverage-enabled: true
-      configuration: "Release"
-      platform: "x64"
-      test-run-title: "Unit Tests"
-      custom-test-adapters: "path/to/custom/adapters"
-      run-in-parallel: true
+      command: install
+      workingDir: ./my-app
+      verbose: true
+      customCommand: build
+      customRegistry: https://custom.registry.url
+      customFeed: feed-name
+      customEndpoint: https://custom.endpoint.url
+      publishRegistry: https://publish.registry.url
+      publishFeed: publish-feed-name
+      publishEndpoint: https://publish.endpoint.url
+      sensitiveInfo: ${{ secrets.SENSITIVE_ALPHANUMERIC_INFO_1 }}
