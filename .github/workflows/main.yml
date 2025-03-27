@@ -7,10 +7,9 @@ on:
 
 jobs:
   npm-workflow:
-    uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
+    uses: ./.github/workflows/reusable-npm.yml
     with:
       command: install
-      workingDir: ./my-app
       verbose: true
       customCommand: build
       customRegistry: https://custom.registry.url
