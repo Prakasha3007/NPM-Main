@@ -7,7 +7,7 @@ on:
 
 jobs:
   npm-workflow:
-    uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
+    uses: ./.github/workflows/reusable-npm.yml
     with:
       command: install
       workingDir: ./my-app
@@ -19,4 +19,3 @@ jobs:
       publishRegistry: https://publish.registry.url
       publishFeed: publish-feed-name
       publishEndpoint: https://publish.endpoint.url
-      sensitiveInfo: ${{ secrets.SENSITIVE_ALPHANUMERIC_INFO_1 }}
