@@ -11,9 +11,9 @@ jobs:
     uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
     with:
       command: "echo 'Running main command'"
-      working_dir: "."
+      working_dir: "./src"
       verbose: true
-      custom_command: "echo 'Executing custom command'"
+      custom_command: "echo 'Executing custom command for main workflow'"
       custom_registry: "https://custom.registry.url"
       custom_feed: "custom-feed"
       custom_endpoint: "https://custom.endpoint.url"
