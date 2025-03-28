@@ -1,22 +1,22 @@
 name: Main Publish Workflow
 
-on:
-  push:
-    branches:
+on: 
+  push: 
+    branches: 
       - main
-  workflow_dispatch:
+  workflow_dispatch: 
 
-jobs:
-  call-reusable:
-    uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
-    with:
-      command: "npm install"
-      working_dir: "./src"
-      verbose: true
-      custom_command: "npm cache clean --force"
-      custom_registry: "https://custom.registry.url"
-      custom_feed: "custom-feed"
-      custom_endpoint: "https://custom.endpoint.url"
-      publish_feed: "publish-feed"
-      publish_package_metadata: "metadata-file.json"
+jobs: 
+  call-reusable: 
+    uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main 
+    with: 
+      command: "npm install" 
+      working_dir: "./src" 
+      verbose: true 
+      custom_command: "npm cache clean --force" 
+      custom_registry: "https://custom.registry.url" 
+      custom_feed: "custom-feed" 
+      custom_endpoint: "https://custom.endpoint.url" 
+      publish_feed: "https://example.registry.url/npm-feed" 
+      publish_package_metadata: "metadata-file.json" 
       publish_endpoint: "https://publish.endpoint.url"
