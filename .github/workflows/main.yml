@@ -10,13 +10,14 @@ jobs:
   call-reusable:
     uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
     with:
-      command: "npm install"
+      command: "echo 'Running main command'"
       working_dir: "./src"
       verbose: true
-      custom_command: "npm cache clean --force"
+      custom_command: "echo 'Executing custom command for main workflow'"
       custom_registry: "https://custom.registry.url"
       custom_feed: "custom-feed"
       custom_endpoint: "https://custom.endpoint.url"
       publish_feed: "publish-feed"
       publish_package_metadata: "metadata-file.json"
       publish_endpoint: "https://publish.endpoint.url"
+
