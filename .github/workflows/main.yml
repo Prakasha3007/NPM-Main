@@ -10,7 +10,7 @@ jobs:
   call-reusable:
     uses: kirandevops1993/NPM-REUSABLE-/.github/workflows/npmtask-reusable.yml@main
     with:
-      command: "npm install"
+      command: "npm ci"
       working_dir: "./src"
       verbose: true
       custom_command: "echo 'Executing custom command for main workflow'"
