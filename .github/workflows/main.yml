@@ -15,7 +15,7 @@ jobs:
       verbose: true 
       custom_command: "npm cache clean --force" 
       custom_registry: "https://custom.registry.url" 
-      custom_feed: "custom-feed" 
+      custom_feed:  "https://private-registry.company.com/npm-feed"
       custom_endpoint: "https://custom.endpoint.url" 
       publish_feed: "https://example.registry.url/npm-feed" 
       publish_package_metadata: "metadata-file.json" 
