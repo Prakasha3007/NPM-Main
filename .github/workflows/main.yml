@@ -20,4 +20,3 @@ jobs:
       publish_feed: "publish-feed"
       publish_package_metadata: "metadata-file.json"
       publish_endpoint: "https://publish.endpoint.url"
-
