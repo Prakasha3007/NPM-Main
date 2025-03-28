@@ -13,7 +13,7 @@ jobs:
       command: "npm install"
       working_dir: "./src"
       verbose: true
-      custom_command: "npm install'"
+      custom_command: "echo 'Executing custom command for main workflow'"
       custom_registry: "https://custom.registry.url"
       custom_feed: "custom-feed"
       custom_endpoint: "https://custom.endpoint.url"
