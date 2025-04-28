@@ -14,6 +14,6 @@ jobs:
       command: "npm install" 
       working_dir: "./src" 
       verbose: true 
-      custom_command: "npm cache clean --force" 
-      custom_registry: "https://custom.registry.url" 
+      custom_command: "npm run build" 
+      custom_registry: "https://registry.npmjs.org/" 
      
