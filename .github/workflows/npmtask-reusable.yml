@@ -28,7 +28,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
         shell: cmd
 
       - name: Debug Node.js and npm Installation
