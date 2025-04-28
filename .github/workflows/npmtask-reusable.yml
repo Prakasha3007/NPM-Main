@@ -31,12 +31,12 @@ jobs:
       - name: Check and Install npm
         run: |
           echo Checking npm installation...
-          npm -v >nul 2>&1
+          npm -v
           if %ERRORLEVEL% NEQ 0 (
             echo npm is not installed. Installing npm via Chocolatey...
             choco install nodejs-lts -y
             echo npm installed. Verifying npm installation...
-            npm -v >nul 2>&1
+            npm -v
             if %ERRORLEVEL% NEQ 0 (
               echo npm installation failed. Exiting workflow...
               exit /b 1
@@ -49,6 +49,7 @@ jobs:
             npm -v
           )
         shell: cmd
+
 
       - name: Debug Node.js and npm Installation
         run: |
