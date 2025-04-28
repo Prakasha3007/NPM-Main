@@ -84,8 +84,8 @@ jobs:
         working-directory: ${{ inputs.workingDir }}
         run: |
           if "${{ inputs.command }}"=="custom" (
-            echo Running Custom Command : ${{ inputs.customCommand }}
-            ${{ inputs.customCommand }}
+            echo Running Custom Command: npm run ${{ inputs.customCommand }}
+            npm run ${{ inputs.customCommand }}
           ) else if "${{ inputs.verbose }}"=="true" (
             echo Running npm ${{ inputs.command }} --verbose
             npm ${{ inputs.command }} --verbose
@@ -94,3 +94,4 @@ jobs:
             npm ${{ inputs.command }}
           )
         shell: cmd
+
