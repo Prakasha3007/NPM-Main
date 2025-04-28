@@ -26,12 +26,12 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Verify Working Directory Contains package.json
         run: |
-          if not exist "%{{ inputs.workingDir }}package.json" (
-            echo Error: package.json not found in the specified working directory: %{{ inputs.workingDir }} && exit /b 1
+          if not exist "${{ inputs.workingDir }}\package.json" (
+            echo Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}  exit /b 1
           )
         shell: cmd
 
