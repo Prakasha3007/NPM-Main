@@ -28,8 +28,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Check if npm is installed 
+        shell: cmd
+        run: |
+          npm -v >null 2>&1
+          if %ERRORLEVEL% NEQ 0 (
+          echo npm isnot installed, installing npm..
+          choco install nodejs-lts -y
+          )else (
+              echo npm is already installed.)
+      - name: Install Dependencies using npm ci
+        run: npm ci
+          
       - name: Verify Working Directory Contains package.json
         run: |
+          cd ${{ inputs.workingDir }}
           if not exist "%{{ inputs.workingDir }}\package.json" (
             echo Error: package.json not found in the specified working directory: %{{ inputs.workingDir }}  exit /b 1
           )
@@ -47,9 +60,12 @@ jobs:
         run: |
           if "${{ inputs.command }}"=="custom" (
             echo Running Custom Command : ${{ inputs.customCommand }}
+            ${{ inputs.customCommand }}
           ) else if "${{ inputs.verbose }}"=="true" (
             echo Running npm ${{ inputs.command }} --verbose
+            ${{ inputs.command }}
           ) else (
             echo Running npm ${{ inputs.command }} --Without Verbose
+            ${{ inputs.command }}
           )
         shell: cmd
