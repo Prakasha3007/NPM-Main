@@ -45,11 +45,11 @@ jobs:
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
         run: |
-          if "%{{ inputs.command }}"=="custom" (
-            %{{ inputs.customCommand }}
-          ) else if "%{{ inputs.verbose }}"=="true" (
-            npm %{{ inputs.command }} --verbose
+          if "${{ inputs.command }}"=="custom" (
+            echo Running Custom Command : ${{ inputs.customCommand }}
+          ) else if "${{ inputs.verbose }}"=="true" (
+            npm ${{ inputs.command }} --verbose
           ) else (
-            npm %{{ inputs.command }}
+            npm ${{ inputs.command }}
           )
         shell: cmd
