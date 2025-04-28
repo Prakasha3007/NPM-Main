@@ -35,20 +35,27 @@ jobs:
           if %ERRORLEVEL% NEQ 0 (
             echo npm is not installed. Installing npm via Chocolatey...
             choco install nodejs-lts -y
-            echo npm installed. Verifying npm installation...
-            npm -v
             if %ERRORLEVEL% NEQ 0 (
-              echo npm installation failed. Exiting workflow...
+              echo Chocolatey installation of npm failed. Exiting workflow...
               exit /b 1
             ) else (
-              echo npm installation successful. npm version:
+              echo npm installed successfully. Verifying installation...
               npm -v
+              if %ERRORLEVEL% NEQ 0 (
+                echo npm verification failed after installation. Exiting workflow...
+                exit /b 1
+              ) else (
+                echo npm installation and verification successful. npm version:
+                npm -v
+              )
             )
           ) else (
             echo npm is already installed. npm version:
             npm -v
           )
         shell: cmd
+
+
 
 
       - name: Debug Node.js and npm Installation
