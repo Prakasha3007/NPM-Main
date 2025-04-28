@@ -48,8 +48,8 @@ jobs:
           if "${{ inputs.command }}"=="custom" (
             echo Running Custom Command : ${{ inputs.customCommand }}
           ) else if "${{ inputs.verbose }}"=="true" (
-            npm ${{ inputs.command }} --verbose
+            echo Running npm ${{ inputs.command }} --verbose
           ) else (
-            npm ${{ inputs.command }}
+            echo Running npm ${{ inputs.command }} --Without Verbose
           )
         shell: cmd
