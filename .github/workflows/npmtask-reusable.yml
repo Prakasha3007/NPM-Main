@@ -57,8 +57,8 @@ jobs:
       - name: Install dependencies using npm ci
         run: |
           cd ${{ inputs.workingDir }}
-          if not exist "package-lock.json" (
-            echo package-lock.json not found, running npm install instead...
+          if not exist "package.json" (
+            echo package.json not found, running npm install instead...
             npm install
           ) else (
             npm ci
