@@ -1,0 +1,69 @@
+name: Reusable Publish Workflow
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        required: true
+        type: string
+      working_dir:
+        required: true
+        type: string
+        default: "."
+      verbose:
+        required: true
+        type: boolean
+        default: false
+      custom_command:
+        required: true
+        type: string
+        default: "npm cache clean --force"
+      custom_registry:
+        required: true
+        type: string
+        default: "https://default.registry.url"
+      
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set Working Directory
+        run: |
+          echo "Setting working directory to ${{ inputs.working_dir }}"
+        working-directory: ${{ inputs.working_dir }}
+
+      - name: Verify or Create nprmc File
+        run: |
+          if [ -f "${{ inputs.working_dir }}/nprmc" ]; then
+            echo "nprmc file found in ${{ inputs.working_dir }}."
+          else
+            echo "nprmc file not found in ${{ inputs.working_dir }}. Creating a default nprmc file..."
+            touch "${{ inputs.working_dir }}/nprmc"
+          fi
+
+      - name: Read nprmc File
+        run: |
+          echo "Reading nprmc file..."
+          cat "${{ inputs.working_dir }}/nprmc"
+
+      - name: Run Custom Command
+        run: |
+          echo "Executing custom command: ${{ inputs.custom_command }}"
+          ${{ inputs.custom_command }}
+
+      - name: Configure Custom Registry
+        run: |
+          echo "Configuring custom registry: ${{ inputs.custom_registry }}"
+
+      
+      - name: Run Main Command
+        run: |
+          echo "Executing main command: ${{ inputs.command }}"
+          ${{ inputs.command }}
+        env:
+          VERBOSE: ${{ inputs.verbose }}
