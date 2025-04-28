@@ -30,28 +30,31 @@ jobs:
 
       - name: Verify Working Directory Contains package.json
         run: |
-          if [ ! -f "${{ inputs.workingDir }}/package.json" ]; then
-            echo "Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}"
-            exit 1
-          fi
+          if not exist "%{{ inputs.workingDir }}\package.json" (
+            echo Error: package.json not found in the specified working directory: %{{ inputs.workingDir }} && exit /b 1
+          )
+        shell: cmd
 
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
         working-directory: ${{ inputs.workingDir }}
         run: |
-          echo "registry=${{ inputs.customRegistry }}" >> .npmrc
+          echo registry=${{ inputs.customRegistry }} >> .npmrc
+        shell: cmd
 
       - name: Run NPM Command
         working-directory: ${{ inputs.workingDir }}
         run: |
-          if [ "${{ inputs.verbose }}" = "true" ]; then
+          if "%{{ inputs.verbose }}"=="true" (
             npm ${{ inputs.command }} --verbose
-          else
+          ) else (
             npm ${{ inputs.command }}
-          fi
+          )
+        shell: cmd
 
       - name: Run Custom Command
         if: ${{ inputs.customCommand != '' }}
         working-directory: ${{ inputs.workingDir }}
         run: |
-          ${{ inputs.customCommand }}
+          %{{ inputs.customCommand }}
+        shell: cmd
