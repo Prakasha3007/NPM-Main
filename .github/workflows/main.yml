@@ -10,9 +10,9 @@ jobs:
   call-reusable: 
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
-      command: "npm install" 
+      command: 'npm install' 
       workingDir: "." 
       verbose: true 
-      customCommand: "run build" 
+      customCommand: 'run build' 
       customRegistry: "https://registry.npmjs.org/" 
      
