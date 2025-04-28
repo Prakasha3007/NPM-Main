@@ -93,14 +93,14 @@
     "webpack": "~5.89.0",
     "yarn": "~1.22.22"
   },
-  "overrides": {
-    "prop-types": "15.8.1",
-    "sass": "1.76.0"
-  },
-  "resolutions": {
-    "prop-types": "15.8.1",
-    "sass": "1.76.0"
-  },
+  #"overrides": {
+  #  "prop-types": "15.8.1",
+  #  "sass": "1.76.0"
+  #},
+  #"resolutions": {
+  #  "prop-types": "15.8.1",
+  #  "sass": "1.76.0"
+  #},
   "gulp-environment": {
     "environments": [
       {
