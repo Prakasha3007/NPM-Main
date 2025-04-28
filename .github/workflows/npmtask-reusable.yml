@@ -1,4 +1,4 @@
-name: Reusable NPM Task
+name: Reusable NPM Workflow
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
       command:
         required: true
         type: string
-      workingDir:  # Path to the folder containing package.json
+      workingDir:
         required: true
         type: string
       verbose:
@@ -22,7 +22,7 @@ on:
 
 jobs:
   npm-task:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -30,32 +30,28 @@ jobs:
 
       - name: Verify Working Directory Contains package.json
         run: |
-          if not exist "${{ inputs.workingDir }}\package.json" (
+          if [ ! -f "${{ inputs.workingDir }}/package.json" ]; then
             echo "Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}"
             exit 1
-          )
-        shell: cmd
+          fi
 
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
         working-directory: ${{ inputs.workingDir }}
         run: |
-          echo registry=${{ inputs.customRegistry }} >> .npmrc
-        shell: cmd
+          echo "registry=${{ inputs.customRegistry }}" >> .npmrc
 
       - name: Run NPM Command
         working-directory: ${{ inputs.workingDir }}
         run: |
-          if "%{{ inputs.verbose }}"=="true" (
+          if [ "${{ inputs.verbose }}" = "true" ]; then
             npm ${{ inputs.command }} --verbose
-          ) else (
+          else
             npm ${{ inputs.command }}
-          )
-        shell: cmd
+          fi
 
       - name: Run Custom Command
         if: ${{ inputs.customCommand != '' }}
         working-directory: ${{ inputs.workingDir }}
         run: |
           ${{ inputs.customCommand }}
-        shell: cmd
