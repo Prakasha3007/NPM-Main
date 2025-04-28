@@ -9,6 +9,7 @@ on:
       workingDir:
         required: true
         type: string
+        default: "."
       verbose:
         required: false
         type: boolean
@@ -27,31 +28,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
       - name: Install Dependencies
         run: npm install
-        shell: cmd
-
-      - name: Debug Node.js and npm Installation
-        run: |
-          echo Node.js and npm versions: 
-          node -v && npm -v
-        shell: cmd
-
-      - name: List Files in Working Directory
-        run: |
-          cd ${{ inputs.workingDir }}
-          dir
-        shell: cmd
-
-      - name: Verify Working Directory Contains package.json
-        run: |
-          cd ${{ inputs.workingDir }}
-          if exist "package.json" (
-            echo Success: package.json found in the specified working directory: ${{ inputs.workingDir }}
-          ) else (
-            echo Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}
-            exit /b 1
-          )
         shell: cmd
 
       - name: Configure Custom Registry
@@ -70,13 +49,13 @@ jobs:
               exit 1
             ) else (
               echo Running Custom Command: ${{ inputs.customCommand }}
-              ${{ inputs.customCommand }}
+              npm ${{ inputs.customCommand }}
             )
           ) else if "${{ inputs.verbose }}"=="true" (
             echo Running npm ${{ inputs.command }} --verbose
             npm ${{ inputs.command }} --verbose
           ) else (
-            echo Running npm ${{ inputs.command }} --Without Verbose
+            echo Running npm ${{ inputs.command }}
             npm ${{ inputs.command }}
           )
         shell: cmd
