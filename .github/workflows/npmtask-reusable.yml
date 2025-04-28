@@ -28,18 +28,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check if npm is installed
-        shell: cmd
+      - name: Check and Install npm
         run: |
           npm -v >nul 2>&1
-           if %ERRORLEVEL% NEQ 0 (
-             echo npm is not installed, installing npm...
-             choco install nodejs-lts -y
-             echo npm installed. Verifying npm...
-             npm -v  # Running npm to verify installation
-           ) else (
-             echo npm is already installed.
-           )
+          if %ERRORLEVEL% NEQ 0 (
+            echo npm is not installed, installing npm...
+            choco install nodejs-lts -y
+            echo npm installed. Verifying npm...
+            npm -v
+          ) else (
+            echo npm is already installed.
+            npm -v
+          )
+        shell: cmd
+
+      - name: Debug Pre-installed Tools
+        run: |
+            node -v
+            npm -v
+        shell: cmd   
+
+      - name: Verify Chocolatey
+        run: choco --version
+        shell: cmd
 
       - name: Install dependencies using npm ci
         run: npm ci
