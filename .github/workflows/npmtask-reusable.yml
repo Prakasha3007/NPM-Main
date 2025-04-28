@@ -32,14 +32,15 @@ jobs:
         run: |
           npm -v >nul 2>&1
           if %ERRORLEVEL% NEQ 0 (
-            echo npm is not installed, installing npm...
-            choco install nodejs-lts -y
-            echo npm installed. Verifying npm...
-            npm -v
+          echo npm is not installed, installing npm...
+          choco install nodejs-lts -y
+          echo npm installed. Verifying npm...
+          npm -v echo npm installation failed.
           ) else (
-            echo npm is already installed.
-            npm -v
+          echo npm is already installed.
+          npm -v echo npm verification failed.
           )
+
         shell: cmd
 
       - name: Debug Node.js and npm Installation
@@ -52,17 +53,6 @@ jobs:
         run: |
           cd ${{ inputs.workingDir }}
           dir
-        shell: cmd
-
-      - name: Install dependencies using npm ci
-        run: |
-          cd ${{ inputs.workingDir }}
-          if not exist "package.json" (
-            echo package.json not found, running npm install instead...
-            npm install
-          ) else (
-            npm ci
-          )
         shell: cmd
 
       - name: Verify Working Directory Contains package.json
