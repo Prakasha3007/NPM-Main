@@ -11,9 +11,9 @@ jobs:
     uses: ./.github/workflows/npmtask-reusable.yml
     
     with: 
-      command: "npm install" 
-      workingDir: "." 
+      command: "install" 
+      workingDir: "./.github/package.json" 
       verbose: true 
-      customCommand: "npm run build" 
+      customCommand: "run build" 
       customRegistry: "https://registry.npmjs.org/" 
      
