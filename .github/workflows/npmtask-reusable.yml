@@ -40,7 +40,6 @@ jobs:
           echo npm is already installed.
           npm -v echo npm verification failed.
           )
-
         shell: cmd
 
       - name: Debug Node.js and npm Installation
@@ -58,7 +57,9 @@ jobs:
       - name: Verify Working Directory Contains package.json
         run: |
           cd ${{ inputs.workingDir }}
-          if not exist "package.json" (
+          if exist "package.json" (
+            echo Success: package.json found in the specified working directory: ${{ inputs.workingDir }}
+          ) else (
             echo Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}
             exit /b 1
           )
