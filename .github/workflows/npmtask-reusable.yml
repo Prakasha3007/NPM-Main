@@ -42,25 +42,35 @@ jobs:
           )
         shell: cmd
 
-      - name: Debug Pre-installed Tools
+      - name: Debug Node.js and npm Installation
         run: |
-            node -v
-            npm -v
-        shell: cmd   
+          node -v
+          npm -v
+        shell: cmd
 
-      - name: Verify Chocolatey
-        run: choco --version
+      - name: List Files in Working Directory
+        run: |
+          cd ${{ inputs.workingDir }}
+          dir
         shell: cmd
 
       - name: Install dependencies using npm ci
-        run: npm ci
+        run: |
+          cd ${{ inputs.workingDir }}
+          if not exist "package-lock.json" (
+            echo package-lock.json not found, running npm install instead...
+            npm install
+          ) else (
+            npm ci
+          )
         shell: cmd
 
       - name: Verify Working Directory Contains package.json
         run: |
           cd ${{ inputs.workingDir }}
-          if not exist "%{{ inputs.workingDir }}\package.json" (
-            echo Error: package.json not found in the specified working directory: %{{ inputs.workingDir }}  exit /b 1
+          if not exist "package.json" (
+            echo Error: package.json not found in the specified working directory: ${{ inputs.workingDir }}
+            exit /b 1
           )
         shell: cmd
 
@@ -79,9 +89,9 @@ jobs:
             ${{ inputs.customCommand }}
           ) else if "${{ inputs.verbose }}"=="true" (
             echo Running npm ${{ inputs.command }} --verbose
-            ${{ inputs.command }}
+            npm ${{ inputs.command }} --verbose
           ) else (
             echo Running npm ${{ inputs.command }} --Without Verbose
-            ${{ inputs.command }}
+            npm ${{ inputs.command }}
           )
         shell: cmd
