@@ -12,8 +12,8 @@ jobs:
     
     with: 
       command: "npm install" 
-      working_dir: "./src" 
+      workingDir: "./src" 
       verbose: true 
-      custom_command: "npm run build" 
-      custom_registry: "https://registry.npmjs.org/" 
+      customCommand: "npm run build" 
+      customRegistry: "https://registry.npmjs.org/" 
      
