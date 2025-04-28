@@ -12,7 +12,7 @@ jobs:
     
     with: 
       command: "install" 
-      workingDir: "./.github/" 
+      workingDir: "." 
       verbose: true 
       customCommand: "run build" 
       customRegistry: "https://registry.npmjs.org/" 
