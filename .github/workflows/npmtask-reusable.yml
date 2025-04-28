@@ -7,7 +7,7 @@ on:
         required: true
         type: string
       workingDir:
-        required: false
+        required: true
         type: string
       verbose:
         required: false
