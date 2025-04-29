@@ -21,19 +21,11 @@ jobs:
         run: |
           echo Installing NVM via Chocolatey...
           choco install nvm -y
- 
-          echo Setting NVM path...
-          setx NVM_HOME "C:\Program Files\nvm"
-          setx NVM_SYMLINK "C:\Program Files\nodejs"
-          set "PATH=%NVM_HOME%;%NVM_SYMLINK%;%PATH%"
- 
-          echo Switching to NVM directory...
-          cd /d "C:\Program Files\nvm"
- 
+        
+          node -v
+          nvm -v
           echo Installing Node.js version: ${{ inputs.version }}
           nvm install ${{ inputs.version }}
           nvm use ${{ inputs.version }}
  
-          echo Verifying installations...
-          node -v
-          nvm -v
+          
