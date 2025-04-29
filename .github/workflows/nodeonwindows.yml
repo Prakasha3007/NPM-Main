@@ -1,4 +1,4 @@
-name: Setup Node on Windows
+name: Setup Node on Windows with NVM
  
 on:
   workflow_call:
@@ -10,22 +10,21 @@ on:
 jobs:
   setup-node:
     runs-on: windows-latest
+ 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
  
-      - name: Install NVM for Windows
-        run: |
-          Invoke-WebRequest -Uri https://github.com/coreybutler/nvm-windows/releases/download/1.1.12/nvm-setup.exe -OutFile nvm-setup.exe
-          Start-Process -FilePath .\nvm-setup.exe -Wait
+      - name: Install NVM via Chocolatey
+        run: choco install nvm -y
  
-      - name: Add NVM path to environment
+      - name: Add NVM and Node to PATH
         shell: powershell
         run: |
-          echo "C:\Program Files\nvm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "C:\ProgramData\nvm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\Program Files\nodejs" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
  
-      - name: Install and use Node.js version
+      - name: Install and Use Node.js via NVM
         run: |
           nvm install ${{ inputs.node_version }}
           nvm use ${{ inputs.node_version }}
