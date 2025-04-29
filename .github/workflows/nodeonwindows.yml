@@ -18,26 +18,25 @@ jobs:
       - name: Check if version exists in list
         id: check_version
         run: |
-          $versionInput = "${{ inputs.version }}"
-          $normalizedInput = $versionInput.TrimStart("v")  # remove 'v' if present
-          $versionList = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
+          $input = "${{ inputs.version }}".TrimStart("v")
+          $versions = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
 
-          if ($normalizedInput -like "*`**") {
-            $prefix = $normalizedInput.TrimEnd('*')
-            $match = $versionList | Where-Object { $_ -like "$prefix*" }
+          $match = if($input -like "*`**") {
+            $prefix = $input.TrimEnd('*')
+            $versions | Where-Object { $_ -like "$prefix*" }
           } else {
-            $match = $versionList | Where-Object { $_ -eq $normalizedInput }
+            $versions | Where-Object { $_ -eq $input }
           }
 
           if (-not $match) {
-            Write-Error " No matching version found for input: $versionInput"
+            Write-Error " No matching version found for input: $input"
             exit 1
-          } else {
-            # Optional: pick the first matching version
-            $selectedVersion = $match | Sort-Object -Descending | Select-Object -First 1
-            Write-Host " Matched version: $selectedVersion"
-            echo "node_version=$selectedVersion" >> $env:GITHUB_ENV
-          }
+          } 
+          # Optional: pick the first matching version
+          $selectedVersion = $match | Sort-Object -Descending | Select-Object -First 1
+          Write-Host " Matched version: $selectedVersion"
+          echo "node_version=$selectedVersion" >> $env:GITHUB_ENV
+          
           # Use NVM to switch Node.js version
           Write-Host " Switching Node.js version using NVM..."
           nvm use $selectedVersion
