@@ -1,0 +1,11 @@
+name: NVM Main Workflow
+ 
+on:
+  workflow_dispatch:
+ 
+jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      version: '20.11.1'
+      checkLatest: false
