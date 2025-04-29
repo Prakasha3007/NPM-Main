@@ -14,20 +14,27 @@ jobs:
       # Step 1: Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v4
-        
-      # Step 1: Check if the requested Node.js version exists in versions.txt
+
       - name: Check if version exists in list
         id: check_version
         run: |
           $versionInput = "${{ inputs.version }}"
-          $versionList = Get-Content "versions.txt"
-          $match = $versionList | Where-Object { $_ -eq $versionInput }
-         
+          $normalizedInput = $versionInput.TrimStart("v")  # remove 'v' if present
+          $versionList = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
+
+          if ($normalizedInput -like "*`**") {
+            $prefix = $normalizedInput.TrimEnd('*')
+            $match = $versionList | Where-Object { $_ -like "$prefix*" }
+          } else {
+            $match = $versionList | Where-Object { $_ -eq $normalizedInput }
+          }
+
           if (-not $match) {
-            Write-Error " Version $versionInput is not allowed. Exiting."
+            Write-Error " No matching version found for input: $versionInput"
             exit 1
           } else {
-            Write-Host " Version $versionInput is valid."
+            # Optional: pick the first matching version
+            $selectedVersion = $match | Sort-Object -Descending | Select-Object -First 1
+            Write-Host " Matched version: $selectedVersion"
+            echo "node_version=$selectedVersion" >> $env:GITHUB_ENV
           }
- 
-          
