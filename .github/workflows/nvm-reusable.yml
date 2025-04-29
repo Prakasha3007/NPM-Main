@@ -1,0 +1,26 @@
+name: Reusable Workflow - List Node Versions
+ 
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: false
+        type: string
+ 
+jobs:
+  list-node-versions:
+    runs-on: windows-latest
+    steps:
+      - name: Check if NVM is available
+        shell: cmd
+        run: |
+          where nvm
+          if errorlevel 1 (
+            echo NVM is not installed!
+            exit /b 1
+          )
+ 
+      - name: List available Node.js versions via NVM
+        shell: cmd
+        run: |
+          nvm list available
