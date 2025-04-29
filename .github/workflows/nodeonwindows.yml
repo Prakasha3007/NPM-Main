@@ -16,16 +16,29 @@ jobs:
         uses: actions/checkout@v4
         
       # Step 1: Install NVM and Node.js in one step
-      - name: Install NVM and Node.js via NVM (fixed path issue)
-        shell: cmd
+      - name: Install NVM via Chocolatey
         run: |
           echo Installing NVM via Chocolatey...
           choco install nvm -y
-    
-          C:\ProgramData\chocolatey\lib\nvm -v
-          echo after nvm version 
-          echo Installing Node.js version: ${{ inputs.version }}
-          nvm install ${{ inputs.version }}
-          nvm use ${{ inputs.version }}
+ 
+      - name: Set environment variables for NVM
+        run: |
+          echo Setting environment variables...
+          setx NVM_HOME "C:\Program Files\nvm"
+          setx NVM_SYMLINK "C:\Program Files\nodejs"
+          set "PATH=%NVM_HOME%;%NVM_SYMLINK%;%PATH%"
+ 
+      - name: Verify NVM installation
+        run: |
+          where nvm
+          nvm -v
+ 
+      - name: Install Node.js via NVM
+        run: |
+          echo Restarting shell session for PATH update...
+          start cmd /c "nvm install 18.18.0 && nvm use 18.18.0"
+ 
+      - name: Check installed Node.js version
+        run: node -v
  
           
