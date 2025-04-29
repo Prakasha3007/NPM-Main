@@ -11,16 +11,9 @@ jobs:
   list-node-versions:
     runs-on: windows-latest
     steps:
-      - name: Check if NVM is available
-        shell: cmd
-        run: |
-          where nvm
-          if errorlevel 1 (
-            echo NVM is not installed!
-            exit /b 1
-          )
- 
-      - name: List available Node.js versions via NVM
-        shell: cmd
-        run: |
-          nvm list available
+     - name: Show installed Node.js versions via NVM
+       shell: cmd
+       run: |
+         nvm list
+         echo nvm list : nvm list
+
