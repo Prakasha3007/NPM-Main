@@ -16,13 +16,19 @@ jobs:
         uses: actions/checkout@v4
         
       # Step 1: Install NVM and Node.js in one step
-      - name: Install NVM and Node.js in one step
+      - name: Install NVM and Node.js via NVM (fixed path issue)
         shell: cmd
         run: |
           echo Installing NVM via Chocolatey...
           choco install nvm -y
-          
-          call refreshenv
+ 
+          echo Setting NVM path...
+          setx NVM_HOME "C:\Users\2000150087\Documents\nvm install path"
+          setx NVM_SYMLINK "C:\Users\2000150087\Documents\nvm install path\nodejs"
+          set "PATH=%NVM_HOME%;%NVM_SYMLINK%;%PATH%"
+ 
+          echo Switching to NVM directory...
+          cd /d "C:\Users\2000150087\Documents\nvm install path"
  
           echo Installing Node.js version: ${{ inputs.version }}
           nvm install ${{ inputs.version }}
