@@ -1,0 +1,11 @@
+name: Use Reusable Windows Node Workflow
+ 
+on:
+    push:
+      branches: [ main ]
+  
+jobs:
+  call-reusable:
+    uses: ./.github/workflows/reusable-node-windows.yml
+    with:
+      node_version: '18.18.2'
