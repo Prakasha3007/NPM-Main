@@ -23,12 +23,12 @@ jobs:
           choco install nvm -y
  
           echo Setting NVM path...
-          setx NVM_HOME "C:\Users\2000150087\Documents\nvm install path"
-          setx NVM_SYMLINK "C:\Users\2000150087\Documents\nvm install path\nodejs"
+          setx NVM_HOME "C:\Program Files\nvm"
+          setx NVM_SYMLINK "C:\Program Files\nodejs"
           set "PATH=%NVM_HOME%;%NVM_SYMLINK%;%PATH%"
  
           echo Switching to NVM directory...
-          cd /d "C:\Users\2000150087\Documents\nvm install path"
+          cd /d "C:\Program Files\nvm"
  
           echo Installing Node.js version: ${{ inputs.version }}
           nvm install ${{ inputs.version }}
