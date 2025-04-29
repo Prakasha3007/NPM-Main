@@ -15,35 +15,48 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Install NVM via Chocolatey
-        run: |
-          echo Installing NVM via Chocolatey...
-          choco install nvm -y
-
-      - name: Set environment variables for NVM
-        run: |
-          echo Setting environment variables...
-          setx NVM_HOME "C:\Program Files\nvm"
-          setx NVM_SYMLINK "C:\Program Files\nodejs"
-          set "PATH=C:\Program Files\nvm;C:\Program Files\nodejs;%PATH%"
-
-      - name: Verify NVM Installation
-        run: |
-          echo PATH=%PATH%
-          where nvm
-          nvm -v
-
-      - name: Install Node.js via NVM
+      # Step 1: Check if the requested Node.js version exists in versions.txt
+      - name: Check Node.js Version in File
         shell: cmd
         run: |
-          echo Restarting shell session for PATH update...
-          nvm install 18.18.0
-          nvm use 18.18.0
+          echo Checking if version exists in versions.txt...
+          set VERSION_INPUT=${{ inputs.version }}
+          if not exist versions.txt (
+            echo "Error: versions.txt file not found!"
+            exit 1
+          )
+          rem Check if the input contains a wildcard (*)
+          echo %VERSION_INPUT% | findstr "*" >nul
+          if errorlevel 1 (
+            rem No wildcard, check for exact match in both formats
+            findstr /c:"%VERSION_INPUT%" versions.txt >nul findstr /c:"v%VERSION_INPUT%" versions.txt >nul
+            if errorlevel 1 (
+              echo "Error: Version %VERSION_INPUT% not found in versions.txt!"
+              exit 1
+            )
+            set SELECTED_VERSION=%VERSION_INPUT%
+          ) else (
+            rem Wildcard present, match any subversion in both formats
+            set VERSION_PATTERN=%VERSION_INPUT:.*=%
+            findstr /r "^%VERSION_PATTERN%.[0-9]*$" versions.txt > matched_version.txt findstr /r "^v%VERSION_PATTERN%.[0-9]*$" versions.txt >> matched_version.txt
+            if errorlevel 1 (
+              echo "Error: No matching version found for %VERSION_INPUT% in versions.txt!"
+              exit 1
+            )
+            for /f %%v in (matched_version.txt) do set SELECTED_VERSION=%%v
+          )
+          echo Selected Node.js version: %SELECTED_VERSION%
 
-      - name: Check installed Node.js version
+      # Step 2: Install and switch to the requested Node.js version using NVM
+      - name: Install and Switch Node.js Version
+        shell: cmd
+        run: |
+          echo Installing and switching to Node.js version...
+          nvm install %SELECTED_VERSION%
+          nvm use %SELECTED_VERSION%
+
+      # Step 3: Verify the installed Node.js version
+      - name: Verify Installed Node.js Version
         run: node -v
  
           
