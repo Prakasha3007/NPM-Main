@@ -38,3 +38,9 @@ jobs:
             Write-Host " Matched version: $selectedVersion"
             echo "node_version=$selectedVersion" >> $env:GITHUB_ENV
           }
+          # Use NVM to switch Node.js version
+          Write-Host " Switching Node.js version using NVM..."
+          nvm use $selectedVersion
+
+          # Confirm version
+          node -v
