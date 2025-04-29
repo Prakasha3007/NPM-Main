@@ -33,25 +33,20 @@ jobs:
         run: |
           $env:Path += ";C:\ProgramData\nvm;C:\Program Files\nodejs"
 
-      # Step 5: List Available Node.js Versions
-      - name: List Available Node.js Versions
+      # Step 5: Refresh environment variables (important after installing nvm)
+      - name: Refresh environment variables
         shell: cmd
         run: |
-          nvm list available
-
-      # Step 6: Check if the Specified Version Exists
-      - name: Verify Node.js Version
-        shell: cmd
-        run: |
-          nvm list available | findstr ${{ inputs.version }}
-        continue-on-error: false
-
-      # Step 5: Install and Use Node.js via NVM
+          refreshenv
+          
+      # Step 6: Install and use the specified Node.js version
       - name: Install and Use Node.js via NVM
         shell: cmd
         run: |
-          #nvm install ${{ inputs.version }}
-          echo nvm use ${{ inputs.version }}
-          nvm use ${{ inputs.version }}
+          echo Installing Node.js version: %inputs.version%
+          nvm install %inputs.version%
+          nvm use %inputs.version%
+          echo Node.js version is now:
           node -v
+          echo NVM version is:
           nvm -v
