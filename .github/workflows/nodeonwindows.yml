@@ -22,7 +22,7 @@ jobs:
           echo Installing NVM via Chocolatey...
           choco install nvm -y
     
-          nvm -v
+          C:\ProgramData\chocolatey\lib\nvm -v
           echo after nvm version 
           echo Installing Node.js version: ${{ inputs.version }}
           nvm install ${{ inputs.version }}
