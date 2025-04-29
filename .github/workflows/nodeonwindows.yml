@@ -16,47 +16,18 @@ jobs:
         uses: actions/checkout@v4
         
       # Step 1: Check if the requested Node.js version exists in versions.txt
-      - name: Check Node.js Version in File
-        shell: cmd
+      - name: Check if version exists in list
+        id: check_version
         run: |
-          echo Checking if version exists in versions.txt...
-          set VERSION_INPUT=${{ inputs.version }}
-          if not exist versions.txt (
-            echo "Error: versions.txt file not found!"
+          $versionInput = "${{ inputs.version }}"
+          $versionList = Get-Content "versions.txt"
+          $match = $versionList | Where-Object { $_ -eq $versionInput }
+         
+          if (-not $match) {
+            Write-Error " Version $versionInput is not allowed. Exiting."
             exit 1
-          )
-          rem Check if the input contains a wildcard (*)
-          echo %VERSION_INPUT% | findstr "*" >nul
-          if errorlevel 1 (
-            rem No wildcard, check for exact match in both formats
-            findstr /c:"%VERSION_INPUT%" versions.txt >nul findstr /c:"v%VERSION_INPUT%" versions.txt >nul
-            if errorlevel 1 (
-              echo "Error: Version %VERSION_INPUT% not found in versions.txt!"
-              exit 1
-            )
-            set SELECTED_VERSION=%VERSION_INPUT%
-          ) else (
-            rem Wildcard present, match any subversion in both formats
-            set VERSION_PATTERN=%VERSION_INPUT:.*=%
-            findstr /r "^%VERSION_PATTERN%.[0-9]*$" versions.txt > matched_version.txt findstr /r "^v%VERSION_PATTERN%.[0-9]*$" versions.txt >> matched_version.txt
-            if errorlevel 1 (
-              echo "Error: No matching version found for %VERSION_INPUT% in versions.txt!"
-              exit 1
-            )
-            for /f %%v in (matched_version.txt) do set SELECTED_VERSION=%%v
-          )
-          echo Selected Node.js version: %SELECTED_VERSION%
-
-      # Step 2: Install and switch to the requested Node.js version using NVM
-      - name: Install and Switch Node.js Version
-        shell: cmd
-        run: |
-          echo Installing and switching to Node.js version...
-          #nvm install %SELECTED_VERSION%
-          nvm use %SELECTED_VERSION%
-
-      # Step 3: Verify the installed Node.js version
-      - name: Verify Installed Node.js Version
-        run: node -v
+          } else {
+            Write-Host " Version $versionInput is valid."
+          }
  
           
