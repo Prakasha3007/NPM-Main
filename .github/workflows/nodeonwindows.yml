@@ -21,9 +21,9 @@ jobs:
         run: |
           echo Installing NVM via Chocolatey...
           choco install nvm -y
-        
-          echo node version :: node -v
-          echo nvm version  :: nvm -v
+    
+          nvm -v
+          echo after nvm version 
           echo Installing Node.js version: ${{ inputs.version }}
           nvm install ${{ inputs.version }}
           nvm use ${{ inputs.version }}
