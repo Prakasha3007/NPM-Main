@@ -3,7 +3,7 @@ name: Setup Node on Windows with NVM
 on:
   workflow_call:
     inputs:
-      node_version:
+      version:
         required: true
         type: string
 
@@ -37,7 +37,7 @@ jobs:
       - name: Install and Use Node.js via NVM
         shell: cmd
         run: |
-          nvm install ${{ inputs.node_version }}
-          nvm use ${{ inputs.node_version }}
+          nvm install ${{ inputs.version }}
+          nvm use ${{ inputs.version }}
           node -v
           npm -v
