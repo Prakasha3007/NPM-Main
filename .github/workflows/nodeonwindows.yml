@@ -52,7 +52,7 @@ jobs:
         shell: cmd
         run: |
           echo Installing and switching to Node.js version...
-          nvm install %SELECTED_VERSION%
+          #nvm install %SELECTED_VERSION%
           nvm use %SELECTED_VERSION%
 
       # Step 3: Verify the installed Node.js version
