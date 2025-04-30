@@ -19,6 +19,13 @@ jobs:
         run: |
           $input = "${{ inputs.version }}".TrimStart("v")
           Write-Host "input versions:" $input
+
+          # Validate if input version is empty
+          if ([string]::IsNullOrWhiteSpace($input)) {
+            Write-Error "Error: Input version is empty. Please provide a valid Node.js version."
+            exit 1
+          }
+          
           $versions = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
 
           # List all available versions
