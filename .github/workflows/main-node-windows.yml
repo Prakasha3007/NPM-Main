@@ -1,4 +1,4 @@
-name: Use Reusable Windows Node Workflow
+name: node install
  
 on: 
   push: 
