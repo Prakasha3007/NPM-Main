@@ -20,6 +20,9 @@ jobs:
           $input = "${{ inputs.version }}".TrimStart("v")
           $versions = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
 
+          # List all available versions
+            Write-Host "Available versions:" $versions | ForEach-Object { Write-Host $_ }
+
           $match = if($input -like "*`**") {
             $prefix = $input.TrimEnd('*')
             $versions | Where-Object { $_ -like "$prefix*" }
