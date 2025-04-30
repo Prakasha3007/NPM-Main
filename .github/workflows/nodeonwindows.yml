@@ -17,6 +17,7 @@ jobs:
 
       - name: Check if version exists in list
         id: check_version
+        shell: powershell
         run: |
           $input = "${{ inputs.version }}".TrimStart("v")
           $versions = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
