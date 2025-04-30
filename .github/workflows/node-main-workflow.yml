@@ -11,4 +11,4 @@ jobs:
   call-reusable:
     uses: ./.github/workflows/node-reusable-workflow.yml
     with:
-      version: '19.*'
+      version: ''
