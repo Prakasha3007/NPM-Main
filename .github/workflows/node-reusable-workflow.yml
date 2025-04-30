@@ -18,6 +18,7 @@ jobs:
       - name: Check and switch Node.js version using NVM
         run: |
           $input = "${{ inputs.version }}".TrimStart("v")
+          Write-Host "input versions:" $input
           $versions = Get-Content "versions.txt" | ForEach-Object { $_.Trim().TrimStart("v") }
 
           # List all available versions
