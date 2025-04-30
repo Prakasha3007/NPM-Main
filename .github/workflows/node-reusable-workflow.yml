@@ -30,6 +30,7 @@ jobs:
           } else {
             $versions | Where-Object { $_ -eq $input }
           }
+          Write-Host "match versions:" $match
 
           if (-not $match) {
             Write-Error " No matching version found for input: $input"
