@@ -1,4 +1,4 @@
-name: Use Reusable Windows Node Workflow
+name: Node Main-Workflow 
  
 on: 
   push: 
@@ -9,6 +9,6 @@ on:
   
 jobs:
   call-reusable:
-    uses: ./.github/workflows/nodeonwindows.yml
+    uses: ./.github/workflows/node-reusable-workflow.yml
     with:
       version: '16.*'
