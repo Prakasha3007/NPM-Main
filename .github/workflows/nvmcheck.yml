@@ -11,4 +11,4 @@ jobs:
   call-reusable:
     uses: ./.github/workflows/nodeonwindows.yml
     with:
-      version: 'v16.13.0'
+      version: '16.*'
