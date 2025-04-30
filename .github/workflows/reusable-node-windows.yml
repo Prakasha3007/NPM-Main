@@ -1,0 +1,55 @@
+# .github/workflows/reusable-node-windows.yml
+ 
+name: Setup Node on Windows with NVM
+ 
+on:
+
+  workflow_call:
+
+    inputs:
+
+      node_version:
+
+        required: true
+
+        type: string
+ 
+jobs:
+
+  setup-node:
+
+    runs-on: windows-latest
+ 
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v3
+ 
+      - name: Install NVM via Chocolatey
+
+        run: choco install nvm -y
+ 
+      - name: Add NVM and Node to PATH
+
+        shell: powershell
+
+        run: |
+
+          echo "C:\ProgramData\nvm" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+          echo "C:\Program Files\nodejs" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+ 
+      - name: Install and Use Node.js via NVM
+
+        run: |
+
+          nvm install ${{ inputs.node_version }}
+
+          nvm use ${{ inputs.node_version }}
+
+          node -v
+
+          npm -v
+
+ 
