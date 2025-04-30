@@ -19,10 +19,7 @@ on:
         type: string
       customRegistry:
         required: false
-        type: string
-     # version:
-      #  required: true
-       # type: string  
+        type: string 
 
 jobs:
   npm-task:
