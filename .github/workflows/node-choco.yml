@@ -36,9 +36,9 @@ jobs:
           C:\nvm\nvm.exe  install 18.20.4
           C:\nvm\nvm.exe  install 18.19.1
           C:\nvm\nvm.exe  install 18.20.1
-          C:\nvm\nvm.exe  install 15.0.0
-          C:\nvm\nvm.exe  install 15.2.0
-          C:\nvm\nvm.exe  install 15.4.0
+          C:\nvm\nvm.exe  install 16.13.0
+          C:\nvm\nvm.exe  install 16.13.1
+          C:\nvm\nvm.exe  install 16.16.0
 
       - name: List of the Installed NVM Versions
         run: nvm list    
