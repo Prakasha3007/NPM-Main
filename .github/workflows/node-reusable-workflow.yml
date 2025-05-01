@@ -1,4 +1,4 @@
-name: Setup Node on Windows with NVM
+name: Setup Node With version txt
 
 on:
   workflow_call:
