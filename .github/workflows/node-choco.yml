@@ -1,20 +1,17 @@
 name: Setup Node with choco on Windows with NVM
- 
 on:
   workflow_call:
     inputs:
       version:
         required: true
         type: string
- 
 jobs:
   run-nvm:
     runs-on: windows-latest
- 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
+ 
       - name: Download NVM for Windows installer
         run: |
           Invoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
@@ -30,19 +27,26 @@ jobs:
          echo "NVM_HOME=C:\nvm" >>$env:GITHUB_ENV
          echo "NVM_SYMLINK=C:\nvm\nodejs" >>$env:GITHUB_ENV
          
-      - name: List available Node versions
+      #- name: List available Node versions
+      # run: |
+      #  C:\nvm\nvm.exe list available
+      
+      - name: Install The Multiple NVM Versions
         run: |
-          C:\nvm\nvm.exe list available
- 
-      - name: Install and use multiple Node.js versions
-        shell: pwsh
-        run: |
-          $versions = @("${{ inputs.version }}".Split("`n"))
-          foreach ($version in $versions) {
-            if ($version -ne "") {
-              Write-Host "Installing and using Node.js version $version"
-              & "C:\nvm\nvm.exe" install $version
-              & "C:\nvm\nvm.exe" use $version
-              & node -v
-            }
-          }
+          C:\nvm\nvm.exe  install 18.20.4
+          C:\nvm\nvm.exe  install 18.19.1
+          C:\nvm\nvm.exe  install 18.20.1
+          C:\nvm\nvm.exe  install 15.0.0
+          C:\nvm\nvm.exe  install 15.2.0
+          C:\nvm\nvm.exe  install 15.4.0
+
+      - name: List of the Installed NVM Versions
+        run: nvm list    
+
+          
+
+
+
+
+
+          
