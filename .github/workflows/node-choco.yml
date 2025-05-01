@@ -17,6 +17,7 @@ jobs:
           Invoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Get-ChildItem -Path "C:\nvm" -Recurse
+          Copy-Item settings.txt C:\nvm\
          
  
       - name: List available Node versions
