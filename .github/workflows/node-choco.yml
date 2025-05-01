@@ -24,6 +24,13 @@ jobs:
           Get-ChildItem -Path "D:\a\NPM-Main\NPM-Main" -Recurse
           Copy-Item "D:\a\NPM-Main\NPM-Main\settings.txt" "C:\nvm\settings.txt" -Force
           Get-content "C:\nvm\settings.txt"
+
+      - name: Set Environment variables for NVM
+        run: |
+         echo "NVM_HOME=C:\nvm">>$env:GITHUB_ENV
+         echo "NVM_SYMLINK=C:\nvm\nodejs">>$env:GITHUB_ENV
+         echo "C:\nvm">>$env:Path
+         echo "C:\nvm\nodejs">>$env:Path
          
  
       - name: List available Node versions
