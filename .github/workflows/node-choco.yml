@@ -12,6 +12,9 @@ jobs:
     runs-on: windows-latest
  
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Download NVM for Windows installer
         run: |
           Invoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
