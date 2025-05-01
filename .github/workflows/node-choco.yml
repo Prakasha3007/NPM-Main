@@ -23,6 +23,7 @@ jobs:
           pwd
           Get-ChildItem -Path "D:\a\NPM-Main\NPM-Main" -Recurse
           Copy-Item "D:\a\NPM-Main\NPM-Main\settings.txt" "C:\nvm\settings.txt"
+          Get-content "C:\nvm\settings.txt"
          
  
       - name: List available Node versions
