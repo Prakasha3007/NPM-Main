@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "NVM_HOME=C:\nvm" >> $env:GITHUB_ENV
           echo "NVM_SYMLINK=C:\nvm\nodejs" >> $env:GITHUB_ENV
-          #echo "PATH=C:\nvm;C:\nvm\nodejs;$env:PATH" >> $env:GITHUB_ENV
+          echo "PATH=C:\nvm;C:\nvm\nodejs;$env:PATH" >> $env:GITHUB_ENV
       - name: Install Predefined Node Versions
         run: |
           C:\nvm\nvm.exe install 18.20.4
