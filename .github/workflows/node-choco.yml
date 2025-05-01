@@ -1,7 +1,11 @@
 name: Setup Node with choco on Windows with NVM
  
 on:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
  
 jobs:
   run-nvm:
