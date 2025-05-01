@@ -20,10 +20,10 @@ jobs:
           Invoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Get-ChildItem -Path "C:\nvm" -Recurse
-          pwd
+          #pwd
           Get-ChildItem -Path "D:\a\NPM-Main\NPM-Main" -Recurse
           Copy-Item "D:\a\NPM-Main\NPM-Main\settings.txt" "C:\nvm\settings.txt" -Force
-          Get-content "C:\nvm\settings.txt"
+          #Get-content "C:\nvm\settings.txt"
           
       - name: Set Environment variables for NVM
         run: |
@@ -34,8 +34,15 @@ jobs:
         run: |
           C:\nvm\nvm.exe list available
  
-      - name: Install and use Node 18.18.2
+      - name: Install and use multiple Node.js versions
+        shell: pwsh
         run: |
-          C:\nvm\nvm.exe  install 18.18.2
-          C:\nvm\nvm.exe  use 18.18.2
-          node -v
+          $versions = @("${{ inputs.version }}".Split("`n"))
+          foreach ($version in $versions) {
+            if ($version -ne "") {
+              Write-Host "Installing and using Node.js version $version"
+              & "C:\nvm\nvm.exe" install $version
+              & "C:\nvm\nvm.exe" use $version
+              & node -v
+            }
+          }
