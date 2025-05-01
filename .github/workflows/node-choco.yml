@@ -21,6 +21,7 @@ jobs:
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Get-ChildItem -Path "C:\nvm" -Recurse
           pwd
+          Get-ChildItem -Path "D:\a\NPM-Main\NPM-Main" -Recurse
           Copy-Item D:\a\NPM-Main\NPM-Main\settings.txt C:\nvm\
          
  
