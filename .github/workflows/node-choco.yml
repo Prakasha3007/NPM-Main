@@ -15,23 +15,21 @@ jobs:
       - name: Download NVM for Windows installer
         run: |
           Invoke-WebRequest https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
-          Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:nvm" -Force
-          Copy-Item "$PWD/settings.txt" "C:nvmsettings.txt" -Force
- 
+          Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
+          Copy-Item "$PWD/settings.txt" "C:\nvm\settings.txt" -Force
       - name: Set Environment Variables for NVM
         run: |
-          echo "NVM_HOME=C:nvm" >> $env:GITHUB_ENV
-          echo "NVM_SYMLINK=C:nvmnodejs" >> $env:GITHUB_ENV
-          echo "PATH=C:nvm;C:nvmnodejs;$env:PATH" >> $env:GITHUB_ENV
- 
+          echo "NVM_HOME=C:\nvm" >> $env:GITHUB_ENV
+          echo "NVM_SYMLINK=C:\nvm\nodejs" >> $env:GITHUB_ENV
+          echo "PATH=C:\nvm;C:\nvm\nodejs;$env:PATH" >> $env:GITHUB_ENV
       - name: Install Predefined Node Versions
         run: |
-          C:nvmnvm.exe install 18.20.4
-          C:nvmnvm.exe install 18.19.1
-          C:nvmnvm.exe install 18.20.1
-          C:nvmnvm.exe install 16.13.0
-          C:nvmnvm.exe install 16.13.1
-          C:nvmnvm.exe install 16.16.0
+          C:\nvm\nvm.exe install 18.20.4
+          C:\nvm\nvm.exe install 18.19.1
+          C:\nvm\nvm.exe install 18.20.1
+          C:\nvm\nvm.exe install 16.13.0
+          C:\nvm\nvm.exe install 16.13.1
+          C:\nvm\nvm.exe install 16.16.0
  
       - name: Check and Switch to Installed NVM Version
         shell: powershell
