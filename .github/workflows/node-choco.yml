@@ -1,4 +1,4 @@
-name: Manual NVM Run on Windows
+name: Setup Node with choco on Windows with NVM
  
 on:
   workflow_dispatch:
