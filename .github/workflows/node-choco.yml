@@ -27,8 +27,8 @@ jobs:
 
       - name: Set Environment variables for NVM
         run: |
-         echo "NVM_HOME=C:\nvm">>$env:GITHUB_ENV
-         echo "NVM_SYMLINK=C:\nvm\nodejs">>$env:GITHUB_ENV
+         echo "NVM_HOME=C:\nvm" >>$env:GITHUB_ENV
+         echo "NVM_SYMLINK=C:\nvm\nodejs" >>$env:GITHUB_ENV
          echo "C:\nvm">>$env:Path
          echo "C:\nvm\nodejs">>$env:Path
          
