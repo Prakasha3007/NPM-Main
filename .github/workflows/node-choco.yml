@@ -1,40 +1,26 @@
-name: Setup Node with choco on Windows with NVM
+name: Manual NVM Run on Windows
  
 on:
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
+  workflow_dispatch:
  
 jobs:
-  setup-node:
+  run-nvm:
     runs-on: windows-latest
  
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: node version
-        run: node -v
-         
-         
-      - name: Install NVM via Chocolatey
-        
+      - name: Download NVM for Windows installer
         run: |
-         choco install nvm -y
-         choco list --localonly
-         choco info nvm
-         Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-         refreshenv
-         Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm.install\tools" -Recurse
-         Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm\tools" -Recurse
-         Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm" -Recurse
-         
+I         nvoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
+          Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
+          Get-ChildItem -Path "C:\nvm" -Recurse
+          Get-ChildItem -Path "C:\nvm\nvm-noinstall" -Recurse
  
-      - name: Install and Use Node.js via NVM
+      - name: List available Node versions
         run: |
-          nvm install ${{ inputs.version }}
-          nvm use ${{ inputs.version }}
+          nvm list available
+ 
+      - name: Install and use Node 18.18.2
+        run: |
+          nvm install 18.18.2
+          nvm use 18.18.2
           node -v
-          npm -v
