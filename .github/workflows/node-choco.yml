@@ -29,8 +29,7 @@ jobs:
         run: |
          echo "NVM_HOME=C:\nvm" >>$env:GITHUB_ENV
          echo "NVM_SYMLINK=C:\nvm\nodejs" >>$env:GITHUB_ENV
-         echo "C:\nvm">>$env:Path
-         echo "C:\nvm\nodejs">>$env:Path
+        
          
  
       - name: List available Node versions
