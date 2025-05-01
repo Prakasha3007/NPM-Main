@@ -21,7 +21,7 @@ jobs:
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Get-ChildItem -Path "C:\nvm" -Recurse
           pwd
-          Copy-Item settings.txt C:\nvm\
+          Copy-Item D:\a\NPM-Main\NPM-Main\settings.txt C:\nvm\
          
  
       - name: List available Node versions
