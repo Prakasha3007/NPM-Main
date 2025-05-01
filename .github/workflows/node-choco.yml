@@ -22,7 +22,7 @@ jobs:
           Get-ChildItem -Path "C:\nvm" -Recurse
           pwd
           Get-ChildItem -Path "D:\a\NPM-Main\NPM-Main" -Recurse
-          Copy-Item "D:\a\NPM-Main\NPM-Main\settings.txt" "C:\nvm\settings.txt"
+          Copy-Item "D:\a\NPM-Main\NPM-Main\settings.txt" "C:\nvm\settings.txt" -Force
           Get-content "C:\nvm\settings.txt"
          
  
