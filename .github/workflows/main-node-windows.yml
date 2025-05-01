@@ -9,6 +9,7 @@ on:
   
 jobs:
   call-reusable:
-    uses: ./.github/workflows/reusable-node-windows.yml
+    #uses: ./.github/workflows/reusable-node-windows.yml
+    uses: ./.github/workflows/node-choco.yml
     with:
       version: '16.13.0'
