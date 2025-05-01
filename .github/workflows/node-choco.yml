@@ -34,38 +34,35 @@ jobs:
           C:\nvm\nvm.exe install 16.13.1
           C:\nvm\nvm.exe install 16.16.0
 
-      - name: Check and Switch to Existing NVM Version
+      - name: Check and Switch to Installed NVM Version
         shell: powershell
         run: |
-          $inputVersion = "${{ inputs.version }}".Trim()
-          if (-not $inputVersion) { 
-            Write-Error "Input version is empty. Please provide a valid Node.js version."
+          $inputVersion = "${{ inputs.version }}"
+          
+          if (-not $inputVersion -or $inputVersion.Trim() -eq "") {
+            Write-Error " Input version is empty. Please provide a valid Node.js version."
             exit 1
           }
-
-          $normalized = $inputVersion.TrimStart('v')
-          $installed = & nvm list | ForEach-Object {
-            ($_ -replace '[*>\s]', '').TrimStart('v')
-          } | Where-Object { $_ -match '^\d+\.\d+\.\d+$' }
-
-          Write-Host "Installed versions:"
-          $installed | ForEach-Object { Write-Host " - $_" }
-
-          $matches = if ($normalized -like '*`*') {
+          $normalized = $inputVersion.Trim().TrimStart("v")
+          $installedVersions = & nvm list | Where-Object { $_ -match '^s*(v?d+.){2}d+' } | ForEach-Object {
+            ($_ -replace '[*>s]', '').TrimStart('v')
+          }
+          Write-Host " Installed versions via NVM:"
+          $installedVersions | ForEach-Object { Write-Host " - $_" }
+    
+          if ($normalized -like '*`*') {
             $prefix = $normalized.TrimEnd('*')
-            $installed | Where-Object { $_ -like "$prefix*" }
+            $matches = $installedVersions | Where-Object { $_ -like "$prefix*" }
           } else {
-            $installed | Where-Object { $_ -eq $normalized }
+            $matches = $installedVersions | Where-Object { $_ -eq $normalized }
           }
-
           if (-not $matches) {
-            Write-Error "No installed Node.js version matches: $inputVersion"
+            Write-Error " No installed Node.js version matches input: $inputVersion"
             exit 1
           }
-
           $selected = $matches | Sort-Object -Descending | Select-Object -First 1
-          Write-Host "Using Node.js version: $selected"
+          Write-Host " Matched installed version: $selected"
           echo "node_version=$selected" >> $env:GITHUB_ENV
-
+          Write-Host " Switching to matched version using NVM..."
           nvm use $selected
-          Write-Host "Node.js version in use: $(node -v)"
+          Write-Host " Node.js version in use: $(node -v)"
