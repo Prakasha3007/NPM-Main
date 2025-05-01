@@ -1,4 +1,4 @@
-name: Setup Node on Windows with NVM
+name: Setup Node with choco on Windows with NVM
  
 on:
   workflow_call:
