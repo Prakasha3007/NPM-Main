@@ -27,6 +27,8 @@ jobs:
          choco info nvm
          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
          refreshenv
+         Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm.install\tools" -Recurse
+         Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm\tools" -Recurse
          Get-ChildItem -Path "C:\ProgramData\chocolatey\lib\nvm" -Recurse
          
  
