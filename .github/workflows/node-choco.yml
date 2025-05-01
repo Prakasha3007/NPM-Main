@@ -17,14 +17,14 @@ jobs:
           Invoke-WebRequest  https://github.com/coreybutler/nvm-windows/releases/download/1.2.2/nvm-noinstall.zip -OutFile nvm-noinstall.zip
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Get-ChildItem -Path "C:\nvm" -Recurse
-          Get-ChildItem -Path "C:\nvm\nvm-noinstall" -Recurse
+         
  
       - name: List available Node versions
         run: |
-          nvm list available
+          C:\nvm\nvm.exe list available
  
       - name: Install and use Node 18.18.2
         run: |
-          nvm install 18.18.2
-          nvm use 18.18.2
+          C:\nvm\nvm.exe  install 18.18.2
+          C:\nvm\nvm.exe  use 18.18.2
           node -v
