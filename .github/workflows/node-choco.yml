@@ -38,19 +38,15 @@ jobs:
         shell: powershell
         run: |
           $version = "${{ inputs.version }}".Trim()
-          if (-not $version) {
+          if (-not $version -or $version -eq "") { 
             Write-Error "Input version is empty. Please provide a valid Node.js version."
             exit 1
           }
 
           $normalized = $version.TrimStart('v')
-          #$installed = & nvm list | ForEach-Object {
-          #  ($_ -replace '[*>\s]', '').TrimStart('v')
-          #} | Where-Object { $_ -match '^\d+\.\d+\.\d+$' }
-
-           $installed = & nvm list | Where-Object { $_ -match '^s*(v?d+.){2}d+' } | ForEach-Object {
-            ($_ -replace '[*>s]', '').TrimStart('v')
-            }
+          $installed = & nvm list | ForEach-Object {
+            ($_ -replace '[*>\s]', '').TrimStart('v')
+          } | Where-Object { $_ -match '^\d+\.\d+\.\d+$' }
 
           Write-Host "Installed versions:"
           $installed | ForEach-Object { Write-Host " - $_" }
