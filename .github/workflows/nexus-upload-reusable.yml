@@ -63,14 +63,20 @@ jobs:
             Write-Host "Attempt $attempt of $retries to upload artifacts..."
 
             try {
-              curl.exe --fail --retry $retries --retry-delay 5 `
+                $response = curl.exe --fail --retry $retries --retry-delay 5 `
                 --user "${{ inputs.username }}:${{ inputs.password }}" `
                 --upload-file "${{ inputs.files }}" `
                 "${{ inputs.url }}/${{ inputs.remotePath }}"
-              $success = $true
-              Write-Host "Artifacts uploaded successfully."
+                $success = $true
+                Write-Host "Artifacts uploaded successfully."
             } catch {
-              Write-Host "Upload failed. Retrying..."
+                # Check if the error is due to authentication failure
+                if ($_ -match "401|403") {
+                    Write-Error "Authentication failed: Invalid username or password."
+                    exit 1
+                } else {
+                    Write-Host "Upload failed. Retrying..."
+                }
             }
 
             if (-not $success -and $attempt -eq $retries) {
