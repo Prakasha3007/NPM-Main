@@ -1,86 +1,137 @@
-name: Reusable Artifact Upload Workflow (Windows)
+name: Nexus Upload Reusable Workflow (Windows)
 
 on:
   workflow_call:
     inputs:
       url:
+        description: 'Nexus server URL'
         required: true
         type: string
       username:
-        required: false
+        description: 'Nexus username'
+        required: true
         type: string
       password:
-        required: false
+        description: 'Nexus password'
+        required: true
+        type: string
+      sourcePath:
+        description: 'Path to the source files or directory'
+        required: true
         type: string
       files:
+        description: 'Files to upload (wildcard supported)'
         required: true
         type: string
       remotePath:
-        required: false
+        description: 'Remote path in Nexus repository'
+        required: true
         type: string
-        default: 'upload/${{ github.run_id }}/'
       retry:
-        required: false
-        type: number
-        default: 3
+        description: 'Number of retries for upload'
+        required: true
+        type: string
 
 jobs:
-  validate-inputs:
+  validate-and-upload:
     runs-on: windows-latest
+
     steps:
-      - name: Validate URL
+      - name: Validate Inputs
+        shell: pwsh
         run: |
-          if (-not ${{ inputs.url }}) {
-            Write-Error "Error: URL is required."
+          # Validate URL
+          if ([string]::IsNullOrWhiteSpace("${{ inputs.url }}")) {
+            Write-Error "Error: Nexus URL is empty."
             exit 1
           }
 
-      - name: Validate Files
-        run: |
-          if (-not (Test-Path "${{ inputs.files }}")) {
-            Write-Error "Error: Files path does not exist."
+          # Validate Username
+          if ([string]::IsNullOrWhiteSpace("${{ inputs.username }}")) {
+            Write-Error "Error: Nexus username is empty."
             exit 1
           }
 
-      - name: Validate Credentials
-        run: |
-          if (-not ${{ inputs.username }} -or -not ${{ inputs.password }}) {
-            Write-Host "Warning: Username and Password are not provided."
+          # Validate Password
+          if ([string]::IsNullOrWhiteSpace("${{ inputs.password }}")) {
+            Write-Error "Error: Nexus password is empty."
+            exit 1
           }
 
-  upload-artifacts:
-    needs: validate-inputs
-    runs-on: windows-latest
-    steps:
+          # Validate SourcePath
+          if (-not (Test-Path "${{ inputs.sourcePath }}")) {
+            Write-Error "Error: SourcePath '${{ inputs.sourcePath }}' does not exist."
+            exit 1
+          }
+
+          # Validate Files in SourcePath
+          $files = Get-ChildItem -Path "${{ inputs.sourcePath }}" -Filter "${{ inputs.files }}"
+          if ($files.Count -eq 0) {
+            Write-Error "Error: No files matching '${{ inputs.files }}' found in '${{ inputs.sourcePath }}'."
+            exit 1
+          }
+
+      - name: Validate Nexus URL
+        shell: pwsh
+        run: |
+          $url = "${{ inputs.url }}"
+          $response = curl.exe -s -o NUL -w "%{http_code}" "$url"
+          if ($response -ne 200) {
+            Write-Error "Error: Nexus URL '${{ inputs.url }}' is not reachable or returned status code $response."
+            exit 1
+          }
+
       - name: Upload Artifacts with Retry Logic
+        shell: pwsh
         run: |
-          $retries = ${{ inputs.retry }}
+          $retries = [int]${{ inputs.retry }}
           $attempt = 0
           $success = $false
 
-          while ($attempt -lt $retries -and -not $success) {
-            $attempt++
-            Write-Host "Attempt $attempt of $retries to upload artifacts..."
+          $files = Get-ChildItem -Path "${{ inputs.sourcePath }}" -Filter "${{ inputs.files }}"
 
-            try {
+          foreach ($file in $files) {
+            $filePath = $file.FullName
+            $fileName = $file.Name
+            $remoteUrl = "${{ inputs.url }}/${{ inputs.remotePath }}/$fileName"
+
+            while ($attempt -lt $retries -and -not $success) {
+              $attempt++
+              Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
+
+              try {
                 $response = curl.exe --fail --retry $retries --retry-delay 5 `
-                --user "${{ inputs.username }}:${{ inputs.password }}" `
-                --upload-file "${{ inputs.files }}" `
-                "${{ inputs.url }}/${{ inputs.remotePath }}"
-                $success = $true
-                Write-Host "Artifacts uploaded successfully."
-            } catch {
-                # Check if the error is due to authentication failure
-                if ($_ -match "401|403") {
-                    Write-Error "Authentication failed: Invalid username or password."
-                    exit 1
+                  --user "${{ inputs.username }}:${{ inputs.password }}" `
+                  --upload-file "$filePath" `
+                  "$remoteUrl"
+
+                if ($LASTEXITCODE -eq 0) {
+                  $success = $true
+                  Write-Host "Successfully uploaded $filePath to $remoteUrl."
                 } else {
-                    Write-Host "Upload failed. Retrying..."
+                  Write-Warning "Upload failed with exit code $LASTEXITCODE. Retrying..."
                 }
+              } catch {
+                if ($_ -match "401|403") {
+                  Write-Error "Authentication failed: Invalid username or password."
+                  exit 1
+                } else {
+                  Write-Warning "Upload failed. Retrying..."
+                }
+              }
             }
 
-            if (-not $success -and $attempt -eq $retries) {
-              Write-Error "Error: Failed to upload artifacts after $retries attempts."
+            if (-not $success) {
+              Write-Error "Error: Failed to upload $filePath to $remoteUrl after $retries attempts."
               exit 1
             }
+
+            # Reset attempt counter for the next file
+            $attempt = 0
+            $success = $false
           }
+
+      - name: Completion
+        shell: pwsh
+        run: |
+          Write-Host "All files uploaded successfully to Nexus."
