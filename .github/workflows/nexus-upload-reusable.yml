@@ -1,0 +1,80 @@
+name: Reusable Artifact Upload Workflow (Windows)
+
+on:
+  workflow_call:
+    inputs:
+      url:
+        required: true
+        type: string
+      username:
+        required: false
+        type: string
+      password:
+        required: false
+        type: string
+      files:
+        required: true
+        type: string
+      remotePath:
+        required: false
+        type: string
+        default: 'upload/${{ github.run_id }}/'
+      retry:
+        required: false
+        type: number
+        default: 3
+
+jobs:
+  validate-inputs:
+    runs-on: windows-latest
+    steps:
+      - name: Validate URL
+        run: |
+          if (-not ${{ inputs.url }}) {
+            Write-Error "Error: URL is required."
+            exit 1
+          }
+
+      - name: Validate Files
+        run: |
+          if (-not (Test-Path "${{ inputs.files }}")) {
+            Write-Error "Error: Files path does not exist."
+            exit 1
+          }
+
+      - name: Validate Credentials
+        run: |
+          if (-not ${{ inputs.username }} -or -not ${{ inputs.password }}) {
+            Write-Host "Warning: Username and Password are not provided."
+          }
+
+  upload-artifacts:
+    needs: validate-inputs
+    runs-on: windows-latest
+    steps:
+      - name: Upload Artifacts with Retry Logic
+        run: |
+          $retries = ${{ inputs.retry }}
+          $attempt = 0
+          $success = $false
+
+          while ($attempt -lt $retries -and -not $success) {
+            $attempt++
+            Write-Host "Attempt $attempt of $retries to upload artifacts..."
+
+            try {
+              curl.exe --fail --retry $retries --retry-delay 5 `
+                --user "${{ inputs.username }}:${{ inputs.password }}" `
+                --upload-file "${{ inputs.files }}" `
+                "${{ inputs.url }}/${{ inputs.remotePath }}"
+              $success = $true
+              Write-Host "Artifacts uploaded successfully."
+            } catch {
+              Write-Host "Upload failed. Retrying..."
+            }
+
+            if (-not $success -and $attempt -eq $retries) {
+              Write-Error "Error: Failed to upload artifacts after $retries attempts."
+              exit 1
+            }
+          }
