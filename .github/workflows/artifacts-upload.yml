@@ -8,9 +8,9 @@ jobs:
     uses: ./.github/workflows/nexus-upload-reusable.yml
     with:
       url: ${{ secrets.UPLOAD_URL }}
+      remotePath: 'upload/${{ github.run_id }}/'
       username: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
       sourcePath: './path/to/source'
       files: '*.zip'
-      remotePath: 'upload/${{ github.run_id }}/'
       retry: 3
