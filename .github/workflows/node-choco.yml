@@ -19,11 +19,24 @@ jobs:
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Copy-Item "$PWD/settings.txt" "C:\nvm\settings.txt" -Force
 
-      - name: Set Environment Variables for NVM
+      #- name: Set Environment Variables for NVM
+        #run: |
+          #echo "NVM_HOME=C:\nvm" >> $env:GITHUB_ENV
+          #echo "NVM_SYMLINK=C:\nvm\nodejs" >> $env:GITHUB_ENV
+          #echo "PATH=C:\nvm;C:\nvm\nodejs;$env:PATH" >> $env:GITHUB_ENV
+
+      - name: Install NVM and Set Environment Variables
         run: |
-          echo "NVM_HOME=C:\nvm" >> $env:GITHUB_ENV
-          echo "NVM_SYMLINK=C:\nvm\nodejs" >> $env:GITHUB_ENV
-          echo "PATH=C:\nvm;C:\nvm\nodejs;$env:PATH" >> $env:GITHUB_ENV
+          $nvmPath = (Get-Command nvm.exe -ErrorAction SilentlyContinue).Path
+          if (-not $nvmPath) {
+              Write-Error "NVM is not installed or not in PATH."
+              exit 1
+          }
+          $NVM_HOME = Split-Path -Parent $nvmPath
+          $NVM_SYMLINK = Join-Path $NVM_HOME "nodejs"
+          echo "NVM_HOME=$NVM_HOME" >> $env:GITHUB_ENV
+          echo "NVM_SYMLINK=$NVM_SYMLINK" >> $env:GITHUB_ENV
+          echo "PATH=$NVM_HOME;$NVM_SYMLINK;$env:PATH" >> $env:GITHUB_ENV    
 
       - name: Install Predefined Node Versions
         run: |
@@ -65,7 +78,6 @@ jobs:
 
           $selected = $matches | Sort-Object -Descending | Select-Object -First 1
           Write-Host "Using Node.js version: $selected"
-          echo "node_version=$selected" >> $env:GITHUB_ENV
 
           nvm use $selected
           Write-Host "Node.js version in use: $(node -v)"
