@@ -10,6 +10,7 @@ jobs:
       url: ${{ secrets.UPLOAD_URL }}
       username: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
-      files: 'path\to\files\*'
+      sourcePath: './path/to/source'
+      files: '*.zip'
       remotePath: 'upload/${{ github.run_id }}/'
       retry: 3
