@@ -1,0 +1,15 @@
+name: Upload Artifacts (Windows)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-artifacts:
+    uses: ./.github/workflows/nexus-upload-reusable.yml
+    with:
+      url: ${{ secrets.UPLOAD_URL }}
+      username: ${{ secrets.USERNAME }}
+      password: ${{ secrets.PASSWORD }}
+      files: 'path\to\files\*'
+      remotePath: 'upload/${{ github.run_id }}/'
+      retry: 3
