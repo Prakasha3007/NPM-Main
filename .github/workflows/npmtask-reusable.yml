@@ -43,6 +43,7 @@ jobs:
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
         run: |
+          echo Node.js Version After  : && node -v 
           if "${{ inputs.command }}"=="custom" (
             if "${{ inputs.customCommand }}"=="" (
               echo Error: customCommand input is required when command is "custom"
