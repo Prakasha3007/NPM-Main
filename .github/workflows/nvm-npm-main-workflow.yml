@@ -8,16 +8,16 @@ on:
 
 jobs:
   setup-node:
-    uses: ./.github/workflows/setup-node-nvm.yml
+    uses: ./.github/workflows/node-choco.yml
     with:
-      version: '18*' # Specify the required Node.js version
+      version: '18*'
 
   run-npm:
     needs: setup-node
-    uses: ./.github/workflows/reusable-npm-workflow.yml
+    uses: ./.github/workflows/npmtask-reusable.yml
     with:
-      command: 'install' # Specify the NPM command (e.g., install, build, test)
-      workingDir: '.'    # Specify the working directory
-      verbose: true      # Set verbose mode (true/false)
-      customCommand: ''  # Optionally specify a custom NPM command
-      customRegistry: '' # Optionally specify a custom registry
+      command: 'custom'
+      workingDir: '.'   
+      verbose: true      
+      customCommand: 'run build:fonts'  
+      customRegistry: 'https://registry.npmjs.org/' 
