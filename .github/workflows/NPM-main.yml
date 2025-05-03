@@ -1,10 +1,10 @@
-name: Main Publish Workflow
+name: NPM Main Workflow
 
 on: 
   push: 
     branches: 
       - main
-  workflow_dispatch: 
+  #workflow_dispatch: 
 
 jobs: 
   call-reusable: 
