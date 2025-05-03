@@ -1,4 +1,4 @@
-name: Nexus Upload Reusable Workflow (Windows)
+name: Reusable Nexus Workflow
 
 on:
   workflow_call:
