@@ -86,13 +86,7 @@ jobs:
 
           nvm use $selected
           Write-Host "Node.js version in use: $(node -v)"
-
-  npm-task:
-    needs: run-nvm
-    runs-on: windows-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+          echo "node_version=$selected" >> $env:GITHUB_ENV
         
       - name: Install Dependencies
         run: npm install
@@ -108,7 +102,7 @@ jobs:
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
         run: |
-          echo Node.js Version After  : && node -v    
+          echo Node.js Version After  : && node -v   
           if "${{ inputs.command }}"=="custom" (   
             if "${{ inputs.customCommand }}"=="" (   
               echo Error: customCommand input is required when command is "custom"
