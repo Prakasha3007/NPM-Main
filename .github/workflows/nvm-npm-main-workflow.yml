@@ -1,0 +1,23 @@
+name: NVM-NPM-Main Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  setup-node:
+    uses: ./.github/workflows/setup-node-nvm.yml
+    with:
+      version: '18*' # Specify the required Node.js version
+
+  run-npm:
+    needs: setup-node
+    uses: ./.github/workflows/reusable-npm-workflow.yml
+    with:
+      command: 'install' # Specify the NPM command (e.g., install, build, test)
+      workingDir: '.'    # Specify the working directory
+      verbose: true      # Set verbose mode (true/false)
+      customCommand: ''  # Optionally specify a custom NPM command
+      customRegistry: '' # Optionally specify a custom registry
