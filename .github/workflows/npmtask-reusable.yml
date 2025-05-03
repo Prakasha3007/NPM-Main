@@ -58,5 +58,6 @@ jobs:
             echo Running npm ${{ inputs.command }}
             npm ${{ inputs.command }}
           )
+          echo Node.js Version : && node -v
         shell: cmd
 
