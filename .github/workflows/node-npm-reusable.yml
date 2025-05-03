@@ -89,6 +89,7 @@ jobs:
 
   npm-task:
     needs: run-nvm
+    runs-on: windows-latest
     steps:
       - name: Install Dependencies
         run: npm install
