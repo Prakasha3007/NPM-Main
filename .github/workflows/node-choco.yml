@@ -1,4 +1,4 @@
-name: Setup Node with NVM on Windows (Reusable)
+name: Reusable Setup Node Workflow
 on:
   workflow_call:
     inputs:
