@@ -7,17 +7,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-node:
-    uses: ./.github/workflows/node-choco.yml
+  combined-task:
+    uses: ./.github/workflows/node-npm-reusable.yml
     with:
-      version: '18.*'
-
-  run-npm:
-    needs: setup-node
-    uses: ./.github/workflows/npmtask-reusable.yml
-    with:
-      command: 'custom'
-      workingDir: '.'   
-      verbose: true      
-      customCommand: 'run build:fonts'  
-      customRegistry: 'https://registry.npmjs.org/' 
+      version: '18*'
+      command: "custom"
+      workingDir: "."
+      verbose: true
+      customCommand: "run build:fonts"
+      customRegistry: "https://registry.npmjs.org/"
