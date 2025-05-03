@@ -56,27 +56,27 @@ jobs:
         shell: powershell
         run: |
           $version = "${{ inputs.version }}".Trim()
-          if (-not $version) {   
+          if (-not $version) { 
             Write-Error "Input version is empty. Please provide a valid Node.js version."
             exit 1
           }
 
           $normalized = $version.TrimStart('v')
-          $installed = & nvm list | ForEach-Object {   
-            ($_ -replace '[*>s]', '').TrimStart('v')   
-          } | Where-Object { $_ -match '^d+.d+.d+$' }
+          $installed = & nvm list | ForEach-Object {
+            ($_ -replace '[*>\s]', '').TrimStart('v')
+          } | Where-Object { $_ -match '^\d+\.\d+\.\d+$' }
 
           Write-Host "Installed versions:"
           $installed | ForEach-Object { Write-Host " - $_" }
 
-          $matches = if ($normalized -like '*`*') {   
-            $prefix = $normalized.TrimEnd('*')   
-            $installed | Where-Object { $_ -like "$prefix*" }   
-          } else {   
-            $installed | Where-Object { $_ -eq $normalized }   
+          $matches = if ($normalized -like '*`*') {
+            $prefix = $normalized.TrimEnd('*')
+            $installed | Where-Object { $_ -like "$prefix*" }
+          } else {
+            $installed | Where-Object { $_ -eq $normalized }
           }
 
-          if (-not $matches) {   
+          if (-not $matches) {
             Write-Error "No installed Node.js version matches: $version"
             exit 1
           }
