@@ -43,22 +43,25 @@ jobs:
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
         run: |
-          echo Node.js Version After  : && node -v 
-          if "${{ inputs.command }}"=="custom" (
-            if "${{ inputs.customCommand }}"=="" (
-              echo Error: customCommand input is required when command is "custom"
-              exit 1
+          if "${{ inputs.command }}"=="install" "${{ inputs.command }}"=="publish" "${{ inputs.command }}"=="custom" (
+            if "${{ inputs.command }}"=="custom" (
+              if "${{ inputs.customCommand }}"=="" (
+                echo Error: customCommand input is required when command is "custom"
+                exit 1
+              ) else (
+                echo Running Custom Command: ${{ inputs.customCommand }}
+                npm ${{ inputs.customCommand }}
+              )
+            ) else if "${{ inputs.verbose }}"=="true" (
+              echo Running npm ${{ inputs.command }} --verbose
+              npm ${{ inputs.command }} --verbose
             ) else (
-              echo Running Custom Command: ${{ inputs.customCommand }}
-              npm ${{ inputs.customCommand }}
+              echo Running npm ${{ inputs.command }}
+              npm ${{ inputs.command }}
             )
-          ) else if "${{ inputs.verbose }}"=="true" (
-            echo Running npm ${{ inputs.command }} --verbose
-            npm ${{ inputs.command }} --verbose
+            echo Node.js Version : && node -v
           ) else (
-            echo Running npm ${{ inputs.command }}
-            npm ${{ inputs.command }}
+            echo Error: Unsupported command. Only "install", "publish", or "custom" are allowed.
+            exit 1
           )
-          echo Node.js Version : && node -v
-        shell: cmd
 
