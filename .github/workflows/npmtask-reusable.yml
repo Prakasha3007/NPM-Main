@@ -59,9 +59,11 @@ jobs:
               echo Running npm ${{ inputs.command }}
               npm ${{ inputs.command }}
             )
-            echo Node.js Version : && node -v
+            #echo Node.js Version : && node -v
           ) else (
             echo Error: Unsupported command. Only "install", "publish", or "custom" are allowed.
             exit 1
           )
+          echo Node.js Version : && node -v
+          shell: cmd
 
