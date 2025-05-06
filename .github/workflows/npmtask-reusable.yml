@@ -55,8 +55,13 @@ jobs:
                 Write-Error "Error: customCommand input is required when command is 'custom'"
                 exit 1
               } else {
-                Write-Host "Running Custom Command: $custom"
-                npm $custom
+                if ($verbose -eq 'true') {
+                    Write-Host "Running npm $custom --verbose"
+                    npm $custom --verbose
+                }else {
+                    Write-Host "Running Custom Command: $custom"
+                    npm $custom
+                }
               }
             } elseif ($verbose -eq 'true') {
               Write-Host "Running npm $cmd --verbose"
