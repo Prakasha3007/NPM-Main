@@ -10,7 +10,7 @@ jobs:
   call-reusable: 
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
-      command: "install" 
+      command: "custom" 
       workingDir: "."
       verbose: true 
       customCommand: "run build:fonts" 
