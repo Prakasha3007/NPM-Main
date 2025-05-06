@@ -4,13 +4,13 @@ on:
   push: 
     branches: 
       - main
-  #workflow_dispatch: 
+  workflow_dispatch: 
 
 jobs: 
   call-reusable: 
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
-      command: "custom" 
+      command: "build" 
       workingDir: "."
       verbose: true 
       customCommand: "run build:fonts" 
