@@ -10,10 +10,12 @@ jobs:
   upload-artifacts:
     uses: ./.github/workflows/nexus-upload-reusable.yml
     with:
+      sourcePath: './.github/uploadArtifacts/'
+      files: '*.zip'
+      retry: 3
+    secrets: 
       url: http://127.0.0.1:8081/repository/maven-releases/
       remotePath: 'upload/${{ github.run_id }}/'
       username: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
-      sourcePath: './.github/uploadArtifacts/'
-      files: '*.zip'
-      retry: 3
+      
