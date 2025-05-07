@@ -12,8 +12,8 @@ jobs:
     with:
       url: http://127.0.0.1:8081/repository/maven-releases/
       remotePath: 'upload/${{ github.run_id }}/'
-      username: admin
-      password: admin
+      username: ${{ secrets.USERNAME }}
+      password: ${{ secrets.PASSWORD }}
       sourcePath: './.github/uploadArtifacts/'
       files: '*.zip'
       retry: 3
