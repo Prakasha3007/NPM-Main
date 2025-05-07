@@ -14,6 +14,6 @@ jobs:
       remotePath: 'upload/${{ github.run_id }}/'
       username: admin
       password: admin
-      sourcePath: './.github/upload Artifacts/'
+      sourcePath: './.github/uploadArtifacts/'
       files: '*.zip'
       retry: 3
