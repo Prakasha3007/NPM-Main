@@ -43,6 +43,7 @@ jobs:
         shell: pwsh
         run: |
           # Validate URL
+          echo "Checking URL : ${{ inputs.url }}"
           if ([string]::IsNullOrWhiteSpace("${{ inputs.url }}")) {
             Write-Error "Error: Nexus URL is empty."
             exit 1
