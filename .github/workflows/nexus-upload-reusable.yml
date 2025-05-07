@@ -12,7 +12,7 @@ on:
       password:
         description: 'Nexus password'
         required: true
-    inputs:   
+    inputs:    
       sourcePath:
         description: 'Path to the source files or directory'
         required: true
@@ -38,27 +38,27 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-        
+         
       - name: Validate Inputs
         shell: pwsh
         run: |
           # Validate URL
-          echo "Checking URL : ${{ inputs.url }}"
-          echo "Checking username : ${{ inputs.username }}"
-          echo "Checking password : ${{ inputs.password }}"
-          if ([string]::IsNullOrWhiteSpace("${{ inputs.url }}")) {
+          Write-Host "Checking URL: ${{ secrets.url }}"
+          Write-Host "Checking username: ${{ secrets.username }}"
+          Write-Host "Checking password: ${{ secrets.password }}"
+          if ([string]::IsNullOrWhiteSpace("${{ secrets.url }}")) {
             Write-Error "Error: Nexus URL is empty."
             exit 1
           }
 
           # Validate Username
-          if ([string]::IsNullOrWhiteSpace("${{ inputs.username }}")) {
+          if ([string]::IsNullOrWhiteSpace("${{ secrets.username }}")) {
             Write-Error "Error: Nexus username is empty."
             exit 1
           }
 
           # Validate Password
-          if ([string]::IsNullOrWhiteSpace("${{ inputs.password }}")) {
+          if ([string]::IsNullOrWhiteSpace("${{ secrets.password }}")) {
             Write-Error "Error: Nexus password is empty."
             exit 1
           }
@@ -79,11 +79,10 @@ jobs:
       - name: Validate Nexus URL
         shell: pwsh
         run: |
-          curl -I http://127.0.0.1:8081/repository/maven-releases/
-          $url = "${{ inputs.url }}"
+          $url = "${{ secrets.url }}"
           $response = curl.exe -s -o NUL -w "%{http_code}" "$url"
           if ($response -ne 200) {
-            Write-Error "Error: Nexus URL '${{ inputs.url }}' is not reachable or returned status code $response."
+            Write-Error "Error: Nexus URL '${{ secrets.url }}' is not reachable or returned status code $response."
             exit 1
           }
 
@@ -99,7 +98,7 @@ jobs:
           foreach ($file in $files) {
             $filePath = $file.FullName
             $fileName = $file.Name
-            $remoteUrl = "${{ inputs.url }}/${{ inputs.remotePath }}/$fileName"
+            $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
 
             while ($attempt -lt $retries -and -not $success) {
               $attempt++
@@ -107,7 +106,7 @@ jobs:
 
               try {
                 $response = curl.exe --fail --retry $retries --retry-delay 5 `
-                  --user "${{ inputs.username }}:${{ inputs.password }}" `
+                  --user "${{ secrets.username }}:${{ secrets.password }}" `
                   --upload-file "$filePath" `
                   "$remoteUrl"
 
