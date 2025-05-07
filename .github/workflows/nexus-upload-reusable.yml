@@ -44,6 +44,8 @@ jobs:
         run: |
           # Validate URL
           echo "Checking URL : ${{ inputs.url }}"
+          echo "Checking username : ${{ inputs.username }}"
+          echo "Checking password : ${{ inputs.password }}"
           if ([string]::IsNullOrWhiteSpace("${{ inputs.url }}")) {
             Write-Error "Error: Nexus URL is empty."
             exit 1
