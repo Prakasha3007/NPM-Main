@@ -1,21 +1,20 @@
 name: Upload Artifacts (Windows)
 
-on: 
-  push: 
-    branches: 
+on:  
+  push:  
+    branches:  
       - main
-  workflow_dispatch: 
+  workflow_dispatch:  
 
 jobs:
   upload-artifacts:
     uses: ./.github/workflows/nexus-upload-reusable.yml
-    secrets: 
-      url: ${{ secrets.UPLOAD_URL }}
-      username: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-    with:
-      remotePath: 'upload/${{ github.run_id }}/'
-      sourcePath: './.github/uploadArtifacts/'
-      files: '*.zip'
-      retry: 3
-      
+    secrets:  
+      url: ${{ secrets.UPLOAD_URL }}  # Pass the secret URL
+      username: ${{ secrets.USERNAME }}  # Pass the secret username
+      password: ${{ secrets.PASSWORD }}  # Pass the secret password
+    with: 
+      remotePath: 'upload/${{ github.run_id }}/'  # Input for remote path
+      sourcePath: './.github/uploadArtifacts/'  # Input for source path
+      files: '*.zip'  # Input for files to upload
+      retry: 3  # Input for retry count
