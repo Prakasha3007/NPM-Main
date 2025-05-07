@@ -2,19 +2,17 @@ name: Reusable Nexus Workflow
 
 on:
   workflow_call:
-    inputs:
+    secrets:
       url:
         description: 'Nexus server URL'
         required: true
-        type: string
       username:
         description: 'Nexus username'
         required: true
-        type: string
       password:
         description: 'Nexus password'
         required: true
-        type: string
+    inputs:   
       sourcePath:
         description: 'Path to the source files or directory'
         required: true
