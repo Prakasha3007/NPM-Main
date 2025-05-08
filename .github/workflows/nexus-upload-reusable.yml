@@ -85,66 +85,70 @@ jobs:
             exit 1
           }
         
-
-      - name: Upload Files to Nexus
-        shell: pwsh
-        run: |
-          $attempt = 0
-          $success = $false
-          $retries = 3  # Set retry count
- 
-          $files = Get-ChildItem -Path "${{ inputs.sourcePath }}" -Filter "${{ inputs.files }}"
- 
-          if ($files.Count -eq 0) {
-            Write-Warning "No files found matching the criteria: ${{ inputs.files }}"
-            exit 0
-          }
- 
-          foreach ($file in $files) {
-            $filePath = $file.FullName
-            $fileName = $file.Name
-            $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
-            Write-Host "Final URL to upload: $remoteUrl"
- 
-            while ($attempt -lt $retries -and -not $success) {
-              $attempt++
-              Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
- 
-              try {
-                # Construct the curl command dynamically
-                $curlCommand = "curl -v -u ${{ secrets.username }}:${{ secrets.password }} -X PUT $remoteUrl --upload-file $filePath"
-                Write-Host "Executing: $curlCommand"
-                
-                Invoke-Expression -Command $curlCommand
- 
-                if ($LASTEXITCODE -eq 0) {
-                  $success = $true
-                  Write-Host "Successfully uploaded $filePath to $remoteUrl."
-                } else {
-                  Write-Warning "Upload failed with exit code $LASTEXITCODE. Retrying..."
-                }
- 
-              } catch {
-                if ($_ -match "401|403") {
-                  Write-Error "Authentication failed: Invalid username or password."
-                  exit 1
-                } else {
-                  Write-Warning "Upload failed with error: $_. Retrying..."
+      - name: Upload Files to Nexus 
+        shell: pwsh 
+        run: | 
+           $attempt = 0 
+           $success = $false 
+           $retries = 3  # Set retry count
+       
+           $files = Get-ChildItem -Path "${{ inputs.sourcePath }}" -Filter "${{ inputs.files }}"
+       
+            if ($files.Count -eq 0) {
+              Write-Warning "No files found matching the criteria: ${{ inputs.files }}"
+              exit 0
+            }
+         
+            foreach ($file in $files) {
+              $filePath = $file.FullName
+              $fileName = $file.Name
+              $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
+              Write-Host "Final URL to upload: $remoteUrl"
+         
+              while ($attempt -lt $retries -and -not $success) {
+                $attempt++
+                Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
+         
+                try {
+                  # Construct the curl command dynamically with verbose output
+                  $curlCommand = "curl -v -w '%{http_code}' -u ${{ secrets.username }}:${{ secrets.password }} -X PUT `"$remoteUrl`" --upload-file `"$filePath`""
+                  Write-Host "Executing: $curlCommand"
+         
+                  # Capture response
+                  $response = Invoke-Expression -Command $curlCommand
+                  $httpCode = $response[-3..-1] -join ""
+         
+                  Write-Host "Response Code: $httpCode"
+         
+                  if ($httpCode -eq "200") {
+                    $success = $true
+                    Write-Host "Successfully uploaded $filePath to $remoteUrl."
+                  } else {
+                    Write-Warning "Upload failed with HTTP Code $httpCode. Retrying..."
+                  }
+         
+                } catch {
+                  if ($_ -match "401|403") {
+                    Write-Error "Authentication failed: Invalid username or password."
+                    exit 1
+                  } else {
+                    Write-Warning "Upload failed with error: $_. Retrying..."
+                  }
                 }
               }
+         
+              if (-not $success) {
+                Write-Error "Error: Failed to upload $filePath to $remoteUrl after $retries attempts."
+                exit 1
+              }
+         
+              # Reset attempt counter for the next file
+              $attempt = 0
+              $success = $false
             }
- 
-            if (-not $success) {
-              Write-Error "Error: Failed to upload $filePath to $remoteUrl after $retries attempts."
-              exit 1
-            }
- 
-            # Reset attempt counter for the next file
-            $attempt = 0
-            $success = $false
-          }
- 
+       
       - name: Completion
         shell: pwsh
         run: |
           Write-Host "All files uploaded successfully to Nexus."
+       
