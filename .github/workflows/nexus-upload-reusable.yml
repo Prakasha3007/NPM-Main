@@ -95,8 +95,8 @@ jobs:
       
             try {
               # Define retry count and delay
-              $retries = 3
-              $retryDelay = 3
+              $retries = 2
+              $retryDelay = 2
       
               # Construct the curl command dynamically with retry options
               $curlCommand = "curl -v -w '%{http_code}' --fail --retry $retries --retry-delay $retryDelay -u ${{ secrets.username }}:${{ secrets.password }} -X PUT $remoteUrl --upload-file $filePath"
