@@ -99,7 +99,7 @@ jobs:
             $filePath = $file.FullName
             $fileName = $file.Name
             $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
-
+            Write-Host "Final URL to check : $remoteUrl"
             while ($attempt -lt $retries -and -not $success) {
               $attempt++
               Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
