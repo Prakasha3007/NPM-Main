@@ -75,15 +75,7 @@ jobs:
             exit 1
           }
 
-      - name: Validate Nexus URL
-        shell: pwsh
-        run: |
-          $url = "${{ secrets.url }}"
-          $response = curl.exe -s -o NUL -w "%{http_code}" --user "${{ secrets.username }}:${{ secrets.password }}" "$url"
-          if ($response -ne 200) {
-            Write-Error "Error: Nexus URL '${{ secrets.url }}' is not reachable or returned status code $response."
-            exit 1
-          }
+   
         
       - name: Upload Files to Nexus
         shell: pwsh
