@@ -116,15 +116,14 @@ jobs:
          
                   # Capture response
                   $response = Invoke-Expression -Command $curlCommand
-                  $httpCode = [int]$response  # Explicitly cast the response to an integer
+                  $response = [int]$response
                   Write-Host "Response Code: $response"
-                  Write-Host "httpCode Code: $httpCode"
-                  
-                  if ($httpCode -ne 200 -and $httpCode -ne 201) {
-                    $success = $true
-                    Write-Host "Successfully uploaded $filePath to $remoteUrl."
+
+                  if ($response -ne 200 -and $response -ne 201) {
+                       $success = $true
+                       Write-Host "Successfully uploaded $filePath to $remoteUrl."
                   } else {
-                    Write-Warning "Upload failed with HTTP Code $httpCode. Retrying..."
+                      Write-Warning "Upload failed with HTTP Code $httpCode. Retrying..."
                   }
          
                 } catch {
