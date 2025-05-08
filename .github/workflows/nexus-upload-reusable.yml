@@ -12,7 +12,7 @@ on:
       password:
         description: 'Nexus password'
         required: true
-    inputs:    
+    inputs:
       sourcePath:
         description: 'Path to the source files or directory'
         required: true
@@ -35,10 +35,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
-         
+
       - name: Validate Inputs
         shell: pwsh
         run: |
@@ -98,8 +97,8 @@ jobs:
           foreach ($file in $files) {
             $filePath = $file.FullName
             $fileName = $file.Name
-            $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
-            Write-Host "Final URL to check : $remoteUrl"
+            $remoteUrl = "${{ secrets.url }}${{ inputs.remotePath.TrimEnd('/') }}/$fileName"
+            Write-Host "Final URL to check: $remoteUrl"
             while ($attempt -lt $retries -and -not $success) {
               $attempt++
               Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
