@@ -112,7 +112,7 @@ jobs:
  
               try {
                 # Construct the curl command dynamically
-                $curlCommand = curl -v -u `"${{ secrets.username }}:${{ secrets.password }}`" -X PUT `"$remoteUrl`" --upload-file `"$filePath`"
+                $curlCommand = `"curl -v -u `"${{ secrets.username }}:${{ secrets.password }}`" -X PUT `"$remoteUrl`" --upload-file `"$filePath`"`"
                 Write-Host "Executing: $curlCommand"
                 
                 Invoke-Expression -Command $curlCommand
