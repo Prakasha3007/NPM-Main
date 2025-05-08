@@ -84,10 +84,7 @@ jobs:
             Write-Error "Error: Nexus URL '${{ secrets.url }}' is not reachable or returned status code $response."
             exit 1
           }
-          
-      - name: Upload File to Nexus
-        run: |
-         curl -u ${{ secrets.username }}:${{ secrets.password }} -X PUT "http://4.246.221.69:9090/repository/hextesting/test.txt" --upload-file $filePath    
+        
 
       - name: Upload Artifacts with Retry Logic
         shell: pwsh
@@ -108,10 +105,8 @@ jobs:
               Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
 
               try {
-                $response = curl.exe --fail --retry $retries --retry-delay 5 `
-                  --user "${{ secrets.username }}:${{ secrets.password }}" `
-                  --upload-file "$filePath" `
-                  "$remoteUrl"
+
+                 curl -u ${{ secrets.username }}:${{ secrets.password }} -X PUT "http://4.246.221.69:9090/repository/hextesting/test.txt" --upload-file $filePath  
 
                 if ($LASTEXITCODE -eq 0) {
                   $success = $true
