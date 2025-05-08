@@ -14,7 +14,7 @@ jobs:
       username: ${{ secrets.USERNAME }}  # Pass the secret username
       password: ${{ secrets.PASSWORD }}  # Pass the secret password
     with: 
-      remotePath: 'repository/maven-releases/upload/${{ github.run_id }}/'  # Input for remote path
+      remotePath: 'repository/maven-releases/${{ github.run_id }}/'  # Input for remote path
       sourcePath: './.github/uploadArtifacts/'  # Input for source path
       files: '*.zip'  # Input for files to upload
       retry: 3  # Input for retry count
