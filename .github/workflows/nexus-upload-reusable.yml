@@ -97,7 +97,6 @@ jobs:
           foreach ($file in $files) {
             $filePath = $file.FullName
             $fileName = $file.Name
-            #$remoteUrl = "${{ secrets.url }}${{ inputs.remotePath.TrimEnd('/') }}/$fileName"
             $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
             Write-Host "Final URL to check: $remoteUrl"
             while ($attempt -lt $retries -and -not $success) {
