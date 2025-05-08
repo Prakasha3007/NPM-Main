@@ -12,7 +12,7 @@ on:
       password:
         description: 'Nexus password'
         required: true
-    inputs:
+    inputs:    
       sourcePath:
         description: 'Path to the source files or directory'
         required: true
@@ -38,7 +38,7 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-
+         
       - name: Validate Inputs
         shell: pwsh
         run: |
@@ -80,7 +80,7 @@ jobs:
         shell: pwsh
         run: |
           $url = "${{ secrets.url }}"
-          $response = curl.exe -s -o NUL -w "%{http_code}" --user "${{ secrets.username }}:${{ secrets.password }}" "$url"
+          $response = curl.exe -s -o NUL -w "%{http_code}" "$url"
           if ($response -ne 200) {
             Write-Error "Error: Nexus URL '${{ secrets.url }}' is not reachable or returned status code $response."
             exit 1
@@ -98,8 +98,8 @@ jobs:
           foreach ($file in $files) {
             $filePath = $file.FullName
             $fileName = $file.Name
-            $remoteUrl = "${{ secrets.url }}${{ inputs.remotePath.TrimEnd('/') }}/$fileName"
-            Write-Host "Final URL to upload: $remoteUrl"
+            $remoteUrl = "${{ secrets.url }}/${{ inputs.remotePath }}/$fileName"
+            Write-Host "Final URL to check : $remoteUrl"
             while ($attempt -lt $retries -and -not $success) {
               $attempt++
               Write-Host "Attempt $attempt of $retries to upload $filePath to $remoteUrl..."
