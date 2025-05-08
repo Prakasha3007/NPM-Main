@@ -120,7 +120,7 @@ jobs:
          
                   Write-Host "Response Code: $httpCode"
          
-                  if ($httpCode -eq "200") {
+                  if ($response -ne 200 -and $response -ne 201) {
                     $success = $true
                     Write-Host "Successfully uploaded $filePath to $remoteUrl."
                   } else {
