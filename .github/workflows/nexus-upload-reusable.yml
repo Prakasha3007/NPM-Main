@@ -87,7 +87,7 @@ jobs:
           
       - name: Upload File to Nexus
         run: |
-         curl -u ${{ secrets.username }}:${{ secrets.password }} -X PUT "http://4.246.221.69:9090/repository/hextesting/test.txt" --upload-file ./.GitHub/uploadArtifacts/test.txt    
+         curl -u ${{ secrets.username }}:${{ secrets.password }} -X PUT "http://4.246.221.69:9090/repository/hextesting/test.txt" --upload-file $filePath    
 
       - name: Upload Artifacts with Retry Logic
         shell: pwsh
