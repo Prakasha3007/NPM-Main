@@ -4,20 +4,25 @@ on:
   workflow_call:
     inputs:
       command:
+        description: 'Specifies the NPM command to be executed. Examples: "install" for installing dependencies'
         required: true
         type: string
       workingDir:
+        description: 'Specifies the working directory where the NPM commands will be executed'
         required: true
         type: string
         default: "."
       verbose:
+        description: 'Enables verbose output for NPM commands when set to true. Useful for debugging or detailed logging'
         required: false
         type: boolean
         default: false
       customCommand:
+        description: 'Specifies a custom NPM command to be executed. This input is mandatory when the command input is set to "custom".'
         required: false
         type: string
       customRegistry:
+        description: 'Specifies a custom NPM registry URL. If provided, this registry will be configured in the .npmrc file before executing commands'
         required: false
         type: string 
 
