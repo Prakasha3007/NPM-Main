@@ -71,4 +71,5 @@ jobs:
               npm ${{ inputs.command }}
             )
           )
-          echo Node.js Version After : && node -v
+      - name: Echo Node.js Version
+        run: node -v    
