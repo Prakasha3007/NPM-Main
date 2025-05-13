@@ -19,6 +19,10 @@ jobs:
           Expand-Archive -Path "nvm-noinstall.zip" -DestinationPath "C:\nvm" -Force
           Copy-Item "$PWD/settings.txt" "C:\nvm\settings.txt" -Force
 
+      - name: Print NVM version
+        run: |
+          C:\nvm\nvm.exe version          
+
       - name: Set Environment Variables for NVM
         run: |
           echo "NVM_HOME=C:\nvm" >> $env:GITHUB_ENV
