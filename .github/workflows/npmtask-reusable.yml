@@ -50,7 +50,7 @@ jobs:
         shell: pwsh
         run: |
           if ("${{ inputs.command }}" -eq "custom") {
-            if (-not ${{ inputs.customCommand }}) {
+            if ([string]::IsNullOrEmpty("${{ inputs.customCommand }}")) { 
               Write-Error "Error: customCommand input is required when command is 'custom'"
               exit 1
             } else {
