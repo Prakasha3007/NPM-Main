@@ -37,9 +37,9 @@ jobs:
           C:\nvm\nvm.exe install 18.20.4
           C:\nvm\nvm.exe install 18.19.1
           C:\nvm\nvm.exe install 18.20.1
-          C:\nvm\nvm.exe install 16.13.0
-          C:\nvm\nvm.exe install 16.13.1
-          C:\nvm\nvm.exe install 16.16.0
+          #C:\nvm\nvm.exe install 16.13.0
+          #C:\nvm\nvm.exe install 16.13.1
+          #C:\nvm\nvm.exe install 16.16.0
 
       - name: Check and Switch to Existing NVM Version
         shell: pwsh
