@@ -13,6 +13,10 @@ on:
         description: 'Nexus password'
         required: true
     inputs:
+      runsOn:
+        description: 'Specifies the runner to be used (e.g., windows-latest, ubuntu-latest)'
+        required: true
+        type: string
       sourcePath:
         description: 'Path to the source files or directory'
         required: true
@@ -32,7 +36,7 @@ on:
 
 jobs:
   validate-and-upload:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.runsOn }}
 
     steps:
       - name: Checkout code
