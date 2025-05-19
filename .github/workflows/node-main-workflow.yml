@@ -12,4 +12,5 @@ jobs:
     #uses: ./.github/workflows/node-reusable-workflow.yml
     uses: ./.github/workflows/node-choco.yml
     with:
+      runsOn: windows-latest
       version: '18*'
