@@ -10,9 +10,9 @@ jobs:
   call-reusable: 
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
-      command: "" 
+      command: "install" 
       workingDir: "."
-      verbose: true 
+      verbose: false 
       customCommand: "run build:fonts" 
       customRegistry: "https://registry.npmjs.org/" 
      
