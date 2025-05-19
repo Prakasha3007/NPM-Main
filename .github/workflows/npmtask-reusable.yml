@@ -3,6 +3,10 @@ name: Reusable NPM Workflow
 on:
   workflow_call:
     inputs:
+      runsOn:
+        description: 'Specifies the runner to be used (e.g., windows-latest, ubuntu-latest)'
+        required: true
+        type: string
       command:
         description: 'Specifies the NPM command to be executed. Examples: "install" for installing dependencies'
         required: true
@@ -28,7 +32,7 @@ on:
 
 jobs:
   npm-task:
-    runs-on: windows-latest
+    runs-on: ${{ inputs.runsOn }}
 
     steps:
       - name: Checkout Repository
