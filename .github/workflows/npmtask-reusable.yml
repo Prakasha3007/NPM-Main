@@ -74,7 +74,4 @@ jobs:
               Write-Host "Running npm ${{ inputs.command }}"
               npm ${{ inputs.command }}
             }
-          }
-      - name: Echo Node.js Version
-        run: node -v
-        shell: pwsh     
+          }  
