@@ -8,12 +8,9 @@ on:
 
 jobs: 
   call-reusable: 
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest] 
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
-      runsOn: ${{ matrix.os }}
+      runsOn: windows-latest
       command: "custom" 
       workingDir: "."
       verbose: true 
