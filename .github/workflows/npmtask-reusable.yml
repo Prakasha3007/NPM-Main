@@ -57,6 +57,17 @@ jobs:
         run: npm install
         shell: pwsh
 
+      - name: Validate Working Directory
+        if: ${{ inputs.workingDir != '' }}
+        shell: pwsh
+        run: |
+          if (-Not (Test-Path -Path "${{ inputs.workingDir }}")) {
+            Write-Error "The specified working directory '${{ inputs.workingDir }}' does not exist."
+            exit 1
+          } else {
+            Write-Host "Working directory '${{ inputs.workingDir }}' exists."
+          }
+
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
         working-directory: ${{ inputs.workingDir }}
