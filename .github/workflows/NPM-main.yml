@@ -12,7 +12,7 @@ jobs:
     with: 
       runsOn: windows-latest
       command: "ci" 
-      workingDir: "."
+      workingDir: "./workflow/npmrc"
       verbose: true 
       customCommand: "run build:fonts" 
       customRegistry: "https://registry.npmjs.org/" 
