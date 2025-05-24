@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
       runsOn: windows-latest
-      command: "hai" 
+      command: "" 
       workingDir: "."
       verbose: true 
       customCommand: "run build:fonts" 
