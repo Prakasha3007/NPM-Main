@@ -1,4 +1,10 @@
-name: Reusable NPM Workflow
+#################################################
+# Workflow Name : Npm
+# Description : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts."
+# Version : v1
+#################################################
+
+name: Npm
 
 on:
   workflow_call:
@@ -38,6 +44,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         
+      - name: NPM Task Header
+        run: |
+            # Task Header
+            Write-Host "===================================================================================================="
+            Write-Host "Task        : Npm"
+            Write-Host "Description : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts."
+            Write-Host "Version     : v1"
+            Write-Host "===================================================================================================="
+      
       - name: Install Dependencies
         run: npm install
         shell: pwsh
