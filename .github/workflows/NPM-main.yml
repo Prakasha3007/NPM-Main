@@ -11,8 +11,8 @@ jobs:
     uses: ./.github/workflows/npmtask-reusable.yml
     with: 
       runsOn: windows-latest
-      command: "ci" 
-      workingDir: "./workflow/npmrc"
+      command: "custom" 
+      workingDir: "."
       verbose: true 
       customCommand: "run build:fonts" 
       customRegistry: "https://registry.npmjs.org/" 
