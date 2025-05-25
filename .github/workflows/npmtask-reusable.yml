@@ -102,7 +102,7 @@ jobs:
             }
       
             # Finally, run the command
-            npm $cmd
+            Invoke-Expression "npm $cmd"
           } catch {
             Write-Error "An error occurred while executing the npm logic: $_"
             exit 1
