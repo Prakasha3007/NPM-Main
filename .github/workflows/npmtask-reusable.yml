@@ -74,7 +74,7 @@ jobs:
         shell: pwsh
 
       - name: Run NPM or Custom Command
-        working-directory: ${{ inputs.workingDir }}
+        #working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
           try {      
@@ -100,9 +100,10 @@ jobs:
             if ("${{ inputs.verbose }}" -eq "true") {
               $cmd += " --verbose"
               Write-Host "Running command: npm $cmd"
-            } else {
-              Write-Host "Running command: npm $cmd"
-            }
+            } 
+            #else {
+             # Write-Host "Running command: npm $cmd"
+            #}
       
             # Finally, run the command
             Invoke-Expression "npm $cmd"
