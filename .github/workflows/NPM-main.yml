@@ -1,18 +1,25 @@
 name: NPM Main Workflow
 
-on: 
-  push: 
-    branches: 
+on:
+  push:
+    branches:
       - main
-  workflow_dispatch: 
+  workflow_dispatch:
 
-jobs: 
-  call-reusable: 
+jobs:
+  checkout:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+  call-reusable:
+    needs: checkout
     uses: ./.github/workflows/npmtask-reusable.yml
-    with: 
+    with:
       runsOn: windows-latest
-      command: "custom" 
+      command: "custom"
       workingDir: "."
-      verbose: false 
-      customCommand: "run build:fonts" 
-      customRegistry: "https://registry.npmjs.org/" 
+      verbose: true
+      customCommand: "run build:fonts"
+      customRegistry: "https://registry.npmjs.org/"
