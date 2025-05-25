@@ -8,18 +8,11 @@ on:
 
 jobs: 
   call-reusable: 
-    runs-on: windows-latest
-    steps: 
-      # Step 1: Checkout the repository
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      # Step 2: Call the reusable workflow
-      - name: Call Reusable Workflow
-        uses: ./.github/workflows/npmtask-reusable.yml
-        with: 
-          command: "custom" 
-          workingDir: "."
-          verbose: true 
-          customCommand: "run build:fonts" 
-          customRegistry: "https://registry.npmjs.org/"
+    uses: ./.github/workflows/npmtask-reusable.yml
+    with: 
+      runsOn: windows-latest
+      command: "custom" 
+      workingDir: "."
+      verbose: true 
+      customCommand: "run build:fonts" 
+      customRegistry: "https://registry.npmjs.org/" 
