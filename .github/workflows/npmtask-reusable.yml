@@ -66,9 +66,9 @@ jobs:
             exit 1
           }       
       
-      - name: Install Dependencies
-        run: npm install
-        shell: pwsh
+      #- name: Install Dependencies
+        #run: npm install
+        #shell: pwsh
 
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
