@@ -74,6 +74,7 @@ jobs:
         #shell: pwsh
 
       - name: Run NPM or Custom Command
+        working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
           try {      
