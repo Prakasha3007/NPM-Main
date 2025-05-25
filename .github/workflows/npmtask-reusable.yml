@@ -1,10 +1,10 @@
 #################################################
-# Workflow Name : Npm
-# Description : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts."
+# Workflow Name : npm
+# Description : Install and publish npm packages, or run an npm command."
 # Version : v1
 #################################################
 
-name: Npm
+name: npm
 
 on:
   workflow_call:
@@ -41,33 +41,18 @@ jobs:
     runs-on: ${{ inputs.runsOn }}
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      #- name: Checkout Repository
+       # uses: actions/checkout@v4  
         
       - name: NPM Task Header
         run: |
             # Task Header
             Write-Host "===================================================================================================="
-            Write-Host "Task        : Npm"
-            Write-Host "Description : Install and publish npm packages, or run an npm command. Supports npmjs.com and authenticated registries like Azure Artifacts."
+            Write-Host "Task        : npm"
+            Write-Host "Description : Install and publish npm packages, or run an npm command."
             Write-Host "Version     : v1"
             Write-Host "===================================================================================================="
-      
-      - name: Install Dependencies
-        run: npm install
-        shell: pwsh
-
-      - name: Validate Working Directory
-        if: ${{ inputs.workingDir != '' }}
-        shell: pwsh
-        run: |
-          if (-Not (Test-Path -Path "${{ inputs.workingDir }}")) {
-            Write-Error "The specified working directory '${{ inputs.workingDir }}' does not exist."
-            exit 1
-          } else {
-            Write-Host "Working directory '${{ inputs.workingDir }}' exists."
-          }
-
+            
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
         working-directory: ${{ inputs.workingDir }}
@@ -80,13 +65,17 @@ jobs:
             Write-Error "Failed to configure custom registry: $_"
             exit 1
           }
+      
+      - name: Install Dependencies
+        run: npm install
+        shell: pwsh
 
       - name: Run NPM or Custom Command
         working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
           try {
-            $allowedCommands = @("custom", "install", "ci")
+            $allowedCommands = @("custom", "install", "ci", "publish")
             if (-not $allowedCommands.Contains("${{ inputs.command }}")) {
               Write-Error "Error: Invalid command '${{ inputs.command }}'. Allowed commands are: custom, install, ci."
               exit 1
