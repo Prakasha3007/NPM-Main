@@ -40,9 +40,13 @@ jobs:
   npm-task:
     runs-on: ${{ inputs.runsOn }}
 
+    defaults:
+     run:
+       working-directory: ${{ inputs.workingDir }}
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  
         
       - name: NPM Task Header
         run: |
@@ -52,10 +56,9 @@ jobs:
             Write-Host "Description : Install and publish npm packages, or run an npm command."
             Write-Host "Version     : v1"
             Write-Host "===================================================================================================="
-
+            
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
-        working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
           try {
@@ -64,7 +67,7 @@ jobs:
           } catch {
             Write-Error "Failed to configure custom registry: $_"
             exit 1
-          }       
+          }
       
       - name: Install Dependencies
         run: npm install
