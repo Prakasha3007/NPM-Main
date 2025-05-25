@@ -19,7 +19,7 @@ jobs:
     with:
       runsOn: windows-latest
       command: "custom"
-      workingDir: "."
+      workingDir: ""
       verbose: true
       customCommand: "run build:fonts"
       customRegistry: "https://registry.npmjs.org/"
