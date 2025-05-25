@@ -40,13 +40,9 @@ jobs:
   npm-task:
     runs-on: ${{ inputs.runsOn }}
 
-    defaults:
-     run:
-       working-directory: ${{ inputs.workingDir }}
-
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4  
+        uses: actions/checkout@v4
         
       - name: NPM Task Header
         run: |
@@ -56,9 +52,10 @@ jobs:
             Write-Host "Description : Install and publish npm packages, or run an npm command."
             Write-Host "Version     : v1"
             Write-Host "===================================================================================================="
-            
+
       - name: Configure Custom Registry
         if: ${{ inputs.customRegistry != '' }}
+        working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
           try {
@@ -67,7 +64,7 @@ jobs:
           } catch {
             Write-Error "Failed to configure custom registry: $_"
             exit 1
-          }
+          }       
       
       - name: Install Dependencies
         run: npm install
@@ -77,35 +74,35 @@ jobs:
         working-directory: ${{ inputs.workingDir }}
         shell: pwsh
         run: |
-          try {      
-            # Validate command is allowed
-            $allowedCommands = @("custom", "install", "ci", "publish")
+          try {
+            $allowedCommands = @("custom", "install", "ci")
             if (-not $allowedCommands.Contains("${{ inputs.command }}")) {
               Write-Error "Error: Invalid command '${{ inputs.command }}'. Allowed commands are: custom, install, ci."
               exit 1
             }
       
-            # Prepare the actual npm command
             if ("${{ inputs.command }}" -eq "custom") {
               if ([string]::IsNullOrEmpty("${{ inputs.customCommand }}")) {
                 Write-Error "Error: customCommand input is required when command is 'custom'"
                 exit 1
+              } else {
+                if ("${{ inputs.verbose }}" -eq "true") {
+                  Write-Host "Running Custom Command: ${{ inputs.customCommand }} --verbose"
+                  npm ${{ inputs.customCommand }} --verbose
+                } else {
+                  Write-Host "Running Custom Command: ${{ inputs.customCommand }}"
+                  npm ${{ inputs.customCommand }}
+                }
               }
-              $cmd = "${{ inputs.customCommand }}"
             } else {
-              $cmd = "${{ inputs.command }}"
+              if ("${{ inputs.verbose }}" -eq "true") {
+                Write-Host "Running npm ${{ inputs.command }} --verbose"
+                npm ${{ inputs.command }} --verbose
+              } else {
+                Write-Host "Running npm ${{ inputs.command }}"
+                npm ${{ inputs.command }}
+              }
             }
-      
-            # Add verbose flag if needed
-            if ("${{ inputs.verbose }}" -eq "true") {
-              $cmd += " --verbose"
-              Write-Host "Running command: npm $cmd"
-            } else {
-              Write-Host "Running command: npm $cmd"
-            }
-      
-            # Finally, run the command
-            npm $cmd
           } catch {
             Write-Error "An error occurred while executing the npm logic: $_"
             exit 1
