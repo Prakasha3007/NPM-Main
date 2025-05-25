@@ -7,14 +7,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  checkout:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #checkout:
+    #runs-on: windows-latest
+    #steps:
+      #- name: Checkout repository
+        #uses: actions/checkout@v4
 
   call-reusable:
-    needs: checkout
+    #needs: checkout
     uses: ./.github/workflows/npmtask-reusable.yml
     with:
       runsOn: windows-latest
