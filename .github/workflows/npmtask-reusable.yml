@@ -1,13 +1,17 @@
-#################################################
+#########################################################################
 # Workflow Name : npm
 # Description : Install and publish npm packages, or run an npm command."
 # Version : v1
-#################################################
+#########################################################################
 
 name: npm
 
 on:
   workflow_call:
+    #secrets:
+      #auth_token:
+        #description: 'Nexus Auth Token'
+        #required: true
     inputs:
       runsOn:
         description: 'Specifies the runner to be used (e.g., windows-latest, ubuntu-latest)'
@@ -17,17 +21,14 @@ on:
         description: 'Specifies the NPM command to be executed. Examples: "install" for installing dependencies'
         required: true
         type: string
-         #default: "install"
       workingDir:
         description: 'Specifies the working directory where the NPM commands will be executed'
         required: true
         type: string
-        #default: "."
       verbose:
         description: 'Enables verbose output for NPM commands when set to true. Useful for debugging or detailed logging'
         required: false
         type: boolean
-        #default: false
       customCommand:
         description: 'Specifies a custom NPM command to be executed. This input is mandatory when the command input is set to "custom".'
         required: false
@@ -36,7 +37,6 @@ on:
         description: 'Specifies a custom NPM registry URL. If provided, this registry will be configured in the .npmrc file before executing commands'
         required: false
         type: string
-        #default: "useNpmrc"
 
 jobs:
   npm-task:
@@ -52,22 +52,42 @@ jobs:
       - name: NPM Task Header
         run: |
             # Task Header
-            Write-Host "===================================================================================================="
+            Write-Host "======================================================================="
             Write-Host "Task        : npm"
             Write-Host "Description : Install and publish npm packages, or run an npm command."
             Write-Host "Version     : v1"
-            Write-Host "===================================================================================================="
+            Write-Host "======================================================================="
             
-      - name: Configure Custom Registry
+        #- name: Configure Custom Registry
+        #if: ${{ inputs.customRegistry != '' }}
+        #shell: pwsh
+        #run: |
+        #  try {
+        #    Add-Content -Path .npmrc -Value "registry=${{ inputs.customRegistry }}"
+        #    Write-Host "Custom registry configured: ${{ inputs.customRegistry }}"
+        #  } catch {
+        #    Write-Error "Failed to configure custom registry: $_"
+        #    exit 1
+        #  }
+
+        # Configure NPM for Custom Registry using PowerShell
+      - name: Configure NPM for Custom Registry
         if: ${{ inputs.customRegistry != '' }}
         shell: pwsh
         run: |
           try {
-            Add-Content -Path .npmrc -Value "registry=${{ inputs.customRegistry }}"
-            Write-Host "Custom registry configured: ${{ inputs.customRegistry }}"
+              # Set the custom registry URL
+              Write-Host "Setting NPM registry to https://${{ inputs.customRegistry }}"
+              npm config set registry https://${{ inputs.customRegistry }}
+
+              # Set the authentication token for the registry
+              Write-Host "Setting authentication token for https://${{ inputs.customRegistry }}"
+              #npm config set //${{ inputs.customRegistry }}/:_authToken=${{ secrets.auth_token }}
+
+              Write-Host "NPM configuration completed successfully."
           } catch {
-            Write-Error "Failed to configure custom registry: $_"
-            exit 1
+              Write-Error "An error occurred while configuring NPM: $_"
+              exit 1
           }
       
       - name: Install Dependencies
