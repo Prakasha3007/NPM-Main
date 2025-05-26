@@ -23,5 +23,5 @@ jobs:
       command: "custom"
       workingDir: "."
       verbose: true
-      customCommand: "run build:fonts"
+      customCommand: ""
       customRegistry: "https://registry.npmjs.org/"
