@@ -103,20 +103,22 @@ jobs:
           try {      
             # Validate command is allowed
             $allowedCommands = @("custom", "install", "ci", "publish")
-            if (-not $allowedCommands.Contains("${{ inputs.command }}")) {
-              Write-Error "Error: Invalid command '${{ inputs.command }}'. Allowed commands are: custom, install, ci."
+            $inputCommand = "${{ inputs.command }}".Trim()
+            $inputcustomCommand = "${{ inputs.customCommand }}".Trim()
+            if (-not $allowedCommands.Contains($inputCommand)) {
+              Write-Error "Error: Invalid command '$inputCommand'. Allowed commands are: custom, install, ci, publish."
               exit 1
             }
       
             # Prepare the actual npm command
             if ("${{ inputs.command }}" -eq "custom") {
-              if ([string]::IsNullOrEmpty("${{ inputs.customCommand }}")) {
+              if ([string]::IsNullOrEmpty($inputcustomCommand)) {
                 Write-Error "Error: customCommand input is required when command is 'custom'"
                 exit 1
               }
-              $cmd = "${{ inputs.customCommand }}"
+              $cmd = $inputCustomCommand
             } else {
-              $cmd = "${{ inputs.command }}"
+              $cmd = $inputCommand
             }
       
             # Add verbose flag if needed
