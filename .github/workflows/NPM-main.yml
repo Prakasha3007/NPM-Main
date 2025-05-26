@@ -20,7 +20,7 @@ jobs:
       #auth_token: ${{ secrets.AUTH_TOKEN }}  # Pass the secret URL
     with:
       runsOn: windows-latest
-      command: "install "
+      command: "install"
       workingDir: "."
       verbose: false
       customCommand: "run build:fonts"
