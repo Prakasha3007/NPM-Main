@@ -22,6 +22,6 @@ jobs:
       runsOn: windows-latest
       command: "custom"
       workingDir: "."
-      verbose: ture
+      verbose: true
       customCommand: "run build:fonts"
       customRegistry: "https://registry.npmjs.org/"
