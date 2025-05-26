@@ -20,8 +20,8 @@ jobs:
       #auth_token: ${{ secrets.AUTH_TOKEN }}  # Pass the secret URL
     with:
       runsOn: windows-latest
-      command: "build"
+      command: "install "
       workingDir: "."
-      verbose: true
+      verbose: false
       customCommand: "run build:fonts"
       customRegistry: "https://registry.npmjs.org/"
