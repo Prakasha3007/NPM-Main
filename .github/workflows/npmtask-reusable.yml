@@ -72,6 +72,9 @@ jobs:
         run: npm install
         shell: pwsh
 
+      - name: Verify npm Installation
+        run: npm --version
+ 
       - name: Run NPM or Custom Command
         shell: pwsh
         run: |
