@@ -78,7 +78,7 @@ jobs:
           try {
               # Set the custom registry URL
               Write-Host "Setting NPM registry to https://${{ inputs.customRegistry }}"
-              npm config set registry https://${{ inputs.customRegistry }}
+              npm config set registry ${{ inputs.customRegistry }}
 
               # Set the authentication token for the registry
               Write-Host "Setting authentication token for https://${{ inputs.customRegistry }}"
