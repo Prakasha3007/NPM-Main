@@ -77,11 +77,11 @@ jobs:
         run: |
           try {
               # Set the custom registry URL
-              Write-Host "Setting NPM registry to https://${{ inputs.customRegistry }}"
+              Write-Host "Setting NPM registry to ${{ inputs.customRegistry }}"
               npm config set registry ${{ inputs.customRegistry }}
 
               # Set the authentication token for the registry
-              Write-Host "Setting authentication token for https://${{ inputs.customRegistry }}"
+              Write-Host "Setting authentication token for ${{ inputs.customRegistry }}"
               #npm config set //${{ inputs.customRegistry }}/:_authToken=${{ secrets.auth_token }}
 
               Write-Host "NPM configuration completed successfully."
@@ -122,10 +122,10 @@ jobs:
             # Add verbose flag if needed
             if ("${{ inputs.verbose }}" -eq "true") {
               $cmd += " --verbose"
-              Write-Host "Running command: npm $cmd"
             } 
       
             # Finally, run the command
+            Write-Host "Running command: npm $cmd"
             Invoke-Expression "npm $cmd"
           } catch {
             Write-Error "An error occurred while executing the npm logic: $_"
