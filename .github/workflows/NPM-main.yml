@@ -16,6 +16,8 @@ jobs:
   call-reusable:
     #needs: checkout
     uses: ./.github/workflows/npmtask-reusable.yml
+    #secrets:  
+      #auth_token: ${{ secrets.AUTH_TOKEN }}  # Pass the secret URL
     with:
       runsOn: windows-latest
       command: "custom"
