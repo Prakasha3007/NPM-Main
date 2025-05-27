@@ -9,13 +9,12 @@ on:
 jobs:
   upload-artifacts:
     uses: ./.github/workflows/nexus-upload-reusable.yml
-    secrets:  
-      url: ${{ secrets.UPLOAD_URL }}  # Pass the secret URL
-      username: ${{ secrets.USERNAME }}  # Pass the secret username
-      password: ${{ secrets.PASSWORD }}  # Pass the secret password
     with:
       runsOn: windows-latest
       remotePath: 'repository/hextesting'  # Input for remote path
       sourcePath: './.github/uploadArtifacts/'  # Input for source path
       files: '*.zip'  # Input for files to upload
       retry: 3  # Input for retry count
+      username: ${{ secrets.USERNAME }}  # Pass the secret username
+      password: ${{ secrets.PASSWORD }}  # Pass the secret password
+      url: ${{ secrets.UPLOAD_URL }}  # Pass the secret URL
