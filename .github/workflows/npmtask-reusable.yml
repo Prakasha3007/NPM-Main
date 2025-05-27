@@ -9,7 +9,7 @@ name: npm
 on:
   workflow_call:
     #secrets:
-      #auth_token:
+      #nexus_npm_token:
         #description: 'Nexus Auth Token'
         #required: true
     inputs:
@@ -78,13 +78,14 @@ jobs:
           try {
               # Set the custom registry URL
               Write-Host "Setting NPM registry to ${{ inputs.customRegistry }}"
-              npm config set registry ${{ inputs.customRegistry }}
+              npm config set registry="${{ inputs.customRegistry }}"
 
               # Set the authentication token for the registry
               Write-Host "Setting authentication token for ${{ inputs.customRegistry }}"
-              #npm config set //${{ inputs.customRegistry }}/:_authToken=${{ secrets.auth_token }}
-
+              #npm config set //${{ inputs.customRegistry }}/:_authToken=${{ secrets.nexus_npm_token }}
+              npm config ls
               Write-Host "NPM configuration completed successfully."
+            
           } catch {
               Write-Error "An error occurred while configuring NPM: $_"
               exit 1
