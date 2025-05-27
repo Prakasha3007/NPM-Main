@@ -98,6 +98,9 @@ jobs:
         run: npm install
         shell: pwsh
 
+      - name: Get npm package version
+        run: npm run env | grep npm_package_version   
+
       - name: Verify npm Installation
         run: npm --version
  
