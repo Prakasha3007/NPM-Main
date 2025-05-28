@@ -20,6 +20,9 @@ jobs:
           verbose: true
           customCommand: ""
           customRegistry: "https://registry.npmjs.org/"
+        env:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
  
       - name: NPM Build
         uses: ./.github/actions/npm-actions
@@ -29,3 +32,6 @@ jobs:
           verbose: true
           customCommand: "run build"
           customRegistry: "https://registry.npmjs.org/"
+        env:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }} 
