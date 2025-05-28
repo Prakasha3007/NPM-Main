@@ -1,0 +1,32 @@
+name: NPM Main Workflow
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+         sparse-checkout: 'npm-scripts'
+ 
+      - name: NPM Install
+        uses: ./.github/actions/npm-actions
+        with:
+          command: "install"
+          workingDir: "./npm-scripts"
+          verbose: true
+          customRegistry: "https://registry.npmjs.org/"
+ 
+      - name: NPM Build Fonts
+        uses: ./.github/actions/npm-actions
+        with:
+          command: "custom"
+          workingDir: "./npm-scripts"
+          verbose: true
+          customCommand: "run build:fonts"
+          customRegistry: "https://registry.npmjs.org/"
