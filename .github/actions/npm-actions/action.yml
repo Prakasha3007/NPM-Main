@@ -4,7 +4,7 @@
 # Version : v1
 #########################################################################
 
-name: npm
+name: npm reusable workflow 
 description: npm action testing
 
 inputs:
