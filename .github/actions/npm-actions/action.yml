@@ -28,6 +28,14 @@ inputs:
     description: 'Specifies a custom NPM registry URL. If provided, this registry will be configured in the .npmrc file before executing commands'
     required: false
     type: string
+  nexus_username:
+    description: 'Specifies the username for authentication with the custom NPM registry'
+    required: false
+    type: string
+  nexus_password:
+    description: 'Specifies the password for authentication with the custom NPM registry'
+    required: false
+    type: string  
 
 runs:
   using: 'composite'
@@ -35,12 +43,11 @@ runs:
 #   run:
 #     working-directory: ${{ inputs.workingDir }}
   steps:     
-    - name: Check installed dependencies
+    - name: Display Nexus Username and Password
       shell: pwsh
       run: |
-        Write-Host "After Checkout"
-        npm list --depth=0
-      continue-on-error: true
+        Write-Host "Nexus Username: ${{ inputs.nexus_username }}"
+        Write-Host "Nexus Password: ${{ inputs.nexus_password }}"
       
     - name: NPM Task Header
       shell: pwsh
