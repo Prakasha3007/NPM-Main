@@ -11,22 +11,21 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-         sparse-checkout: 'npm-scripts'
  
       - name: NPM Install
         uses: ./.github/actions/npm-actions
         with:
           command: "install"
-          workingDir: "./npm-scripts"
+          workingDir: "."
           verbose: true
+          customCommand: ""
           customRegistry: "https://registry.npmjs.org/"
  
-      - name: NPM Build Fonts
+      - name: NPM Build
         uses: ./.github/actions/npm-actions
         with:
           command: "custom"
-          workingDir: "./npm-scripts"
+          workingDir: "."
           verbose: true
           customCommand: "run build:fonts"
           customRegistry: "https://registry.npmjs.org/"
