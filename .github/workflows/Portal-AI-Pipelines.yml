@@ -22,6 +22,17 @@ jobs:
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: NPM Build
+        uses: ./.github/actions/npm-actions
+        with:
+          command: "custom"
+          workingDir: "test-project"
+          verbose: true
+          customCommand: "t"
+          customRegistry: "https://registry.npmjs.org/"
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}      
  
       - name: NPM Build
         uses: ./.github/actions/npm-actions
