@@ -24,10 +24,10 @@ jobs:
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: NPM Test
-        uses: ./.github/actions/npm-actions
+        uses: Prakasha3007/Test-NPM/.github/actions/test-actions@main
         with:
           command: "custom"
-          workingDir: "test project"
+          workingDir: "."
           verbose: true
           customCommand: "test"
           customRegistry: "https://registry.npmjs.org/"
