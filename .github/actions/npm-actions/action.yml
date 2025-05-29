@@ -29,11 +29,11 @@ inputs:
     required: false
     type: string
   nexus_username:
-    description: 'nexus user name'
+    description: 'Nexus username'
     required: true
     type: string
   nexus_password:
-    description: 'nexus user password'
+    description: 'Nexus password'
     required: true
     type: string  
 
