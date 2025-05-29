@@ -38,12 +38,12 @@ jobs:
         uses: ./.github/actions/npm-actions
         with:
           SourceFolder: sourcefolder
-    		  contents: '*.txt'
-    		  TargetFolder: targetFolder
-    		  CleanTargetFolder: true
-    		  overwrite: false
-    		  FlattenFolders: false
-    		  preserveTimestamp: false
-    		  retryCount: '3'
-    		  delayBetweenRetries: '5000'
-    		  ignoreMakeDirErrors: false    
+          contents: '*.txt'
+          TargetFolder: targetFolder
+          CleanTargetFolder: true
+          overwrite: false
+          FlattenFolders: false
+          preserveTimestamp: false
+          retryCount: '3'
+          delayBetweenRetries: '5000'
+          ignoreMakeDirErrors: false
