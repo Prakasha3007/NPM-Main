@@ -35,7 +35,8 @@ jobs:
           nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
 
       - name: Copy Files
-        uses: ./.github/actions/npm-actions
+        #uses: ./.github/actions/npm-actions
+        uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
         with:
           SourceFolder: sourcefolder
           contents: '*.txt'
