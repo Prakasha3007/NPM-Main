@@ -28,6 +28,14 @@ inputs:
     description: 'Specifies a custom NPM registry URL. If provided, this registry will be configured in the .npmrc file before executing commands'
     required: false
     type: string
+  nexus_username:
+    description: 'nexus user name'
+    required: true
+    type: string
+  nexus_password:
+    description: 'nexus user password'
+    required: true
+    type: string  
 
 runs:
   using: 'composite'
