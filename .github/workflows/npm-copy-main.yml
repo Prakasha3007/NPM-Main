@@ -29,7 +29,7 @@ jobs:
           command: "custom"
           workingDir: "."
           verbose: true
-          customCommand: "t"
+          customCommand: "run build"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
