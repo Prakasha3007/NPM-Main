@@ -24,7 +24,7 @@ jobs:
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
           
       - name: NPM Test
-        uses: Prakasha3007/Test-NPM/.github/actions/test-actions@main
+        uses: ./.github/actions/npm-actions
         with:
           command: "custom"
           workingDir: "./testproject"
