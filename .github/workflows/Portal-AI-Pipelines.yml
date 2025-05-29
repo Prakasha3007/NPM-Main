@@ -23,13 +23,13 @@ jobs:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
 
-      - name: NPM Build
+      - name: NPM Test
         uses: ./.github/actions/npm-actions
         with:
           command: "custom"
           workingDir: "test project"
           verbose: true
-          customCommand: "t"
+          customCommand: "test"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}      
