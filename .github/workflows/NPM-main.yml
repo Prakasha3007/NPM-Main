@@ -19,7 +19,7 @@ jobs:
       #auth_token: ${{ secrets.AUTH_TOKEN }}
     with:
       runsOn: windows-latest
-      command: "install "
+      command: "publish "
       workingDir: "."
       verbose: true
       customCommand: "run build:fonts"
