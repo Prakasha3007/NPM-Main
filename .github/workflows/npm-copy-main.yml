@@ -33,18 +33,3 @@ jobs:
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
-
-      - name: Copy Files
-        #uses: ./.github/actions/npm-actions
-        uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
-        with:
-          SourceFolder: sourcefolder
-          contents: '*.txt'
-          TargetFolder: targetFolder
-          CleanTargetFolder: true
-          overwrite: false
-          FlattenFolders: false
-          preserveTimestamp: false
-          retryCount: '3'
-          delayBetweenRetries: '5000'
-          ignoreMakeDirErrors: false    
