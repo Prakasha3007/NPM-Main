@@ -85,8 +85,8 @@ jobs:
 
               # Set the username and password for the registry
               Write-Host "Setting username and password for ${{ inputs.customRegistry }}"
-              npm config set //${{ inputs.customRegistry }}/:username=${{ secrets.nexus_username }}
-              npm config set //${{ inputs.customRegistry }}/:password=${{ secrets.nexus_password }}
+              #npm config set //${{ inputs.customRegistry }}/:username=${{ secrets.nexus_username }}
+              #npm config set //${{ inputs.customRegistry }}/:password=${{ secrets.nexus_password }}
       
               # Display the current NPM configuration
               npm config ls
