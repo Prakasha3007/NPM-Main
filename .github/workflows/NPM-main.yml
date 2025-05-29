@@ -6,20 +6,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  #checkout:
-    #runs-on: windows-latest
-    #steps:
-      #- name: Checkout repository
-        #uses: actions/checkout@v4
-
   call-reusable:
-    #needs: checkout
     uses: ./.github/workflows/npmtask-reusable.yml
-    #secrets:  
-      #auth_token: ${{ secrets.AUTH_TOKEN }}
+    secrets:  
+      username: ${{ secrets.NEXUS_USERNAME }}  # Pass the secret username
+      password: ${{ secrets.NEXUS_PASSWORD }}  # Pass the secret password
     with:
       runsOn: windows-latest
-      command: "publish "
+      command: "publish"
       workingDir: "."
       verbose: true
       customCommand: "run build:fonts"
