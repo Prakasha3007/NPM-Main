@@ -15,13 +15,24 @@ jobs:
       - name: NPM Install
         uses: ./.github/actions/npm-actions
         with:
-          command: "custom"
+          command: "install"
           workingDir: "."
           verbose: true
           customCommand: "install --no-save"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }}      
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          
+      - name: NPM Test
+        uses: Prakasha3007/Test-NPM/.github/actions/test-actions@main
+        with:
+          command: "custom"
+          workingDir: "."
+          verbose: true
+          customCommand: "test"
+          customRegistry: "https://registry.npmjs.org/"
+          nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }}     
  
       - name: NPM Build
         uses: ./.github/actions/npm-actions
