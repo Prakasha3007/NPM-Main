@@ -15,7 +15,7 @@ jobs:
       - name: NPM Install
         uses: ./.github/actions/npm-actions
         with:
-          command: "publish"
+          command: "install"
           workingDir: "."
           verbose: true
           customCommand: ""
