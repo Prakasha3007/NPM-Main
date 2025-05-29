@@ -47,4 +47,15 @@ jobs:
           preserveTimestamp: false
           retryCount: '3'
           delayBetweenRetries: '5000'
-          ignoreMakeDirErrors: false    
+          ignoreMakeDirErrors: false   
+
+      - name: PowerShell Script
+        uses: Prakasha3007/PowerShell/.github/actions/pshell-actions@main
+        with:
+          targetType: filePath
+          filePath: 'scripts/sample-script.ps1'
+          arguments: 'arg1 arg2'
+          script: hostname
+          workingFolder: '.'
+          errorPreference: Stop
+          ignoreLASTEXITCODE: false   
