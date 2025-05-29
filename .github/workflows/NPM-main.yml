@@ -1,0 +1,26 @@
+name: NPM
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  #checkout:
+    #runs-on: windows-latest
+    #steps:
+      #- name: Checkout repository
+        #uses: actions/checkout@v4
+
+  call-reusable:
+    #needs: checkout
+    uses: ./.github/workflows/npmtask-reusable.yml
+    #secrets:  
+      #auth_token: ${{ secrets.AUTH_TOKEN }}
+    with:
+      runsOn: windows-latest
+      command: "install "
+      workingDir: "."
+      verbose: true
+      customCommand: "run build:fonts"
+      customRegistry: "https://registry.npmjs.org/"
