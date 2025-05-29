@@ -9,8 +9,8 @@ jobs:
   call-reusable:
     uses: ./.github/workflows/npmtask-reusable.yml
     secrets:  
-      username: ${{ secrets.NEXUS_USERNAME }}  # Pass the secret username
-      password: ${{ secrets.NEXUS_PASSWORD }}  # Pass the secret password
+      nexus_username: ${{ secrets.NEXUS_USERNAME }}  # Pass the secret username
+      nexus_password: ${{ secrets.NEXUS_PASSWORD }}  # Pass the secret password
     with:
       runsOn: windows-latest
       command: "publish"
