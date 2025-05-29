@@ -27,7 +27,7 @@ jobs:
         uses: Prakasha3007/Test-NPM/.github/actions/test-actions@main
         with:
           command: "custom"
-          workingDir: "."
+          workingDir: "./testproject"
           verbose: true
           customCommand: "test"
           customRegistry: "https://registry.npmjs.org/"
