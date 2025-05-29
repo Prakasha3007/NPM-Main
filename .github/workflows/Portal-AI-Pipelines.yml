@@ -45,7 +45,22 @@ jobs:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
           
-      - name: Copy Files
+      - name: Copy Generated Files to 
+        #uses: ./.github/actions/npm-actions
+        uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
+        with:
+          SourceFolder: sourcefolder
+          contents: '**'
+          TargetFolder: targetFolder
+          CleanTargetFolder: true
+          overwrite: false
+          FlattenFolders: false
+          preserveTimestamp: false
+          retryCount: '3'
+          delayBetweenRetries: '5000'
+          ignoreMakeDirErrors: false 
+
+      - name: Copy Public Files to 
         #uses: ./.github/actions/npm-actions
         uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
         with:
@@ -58,7 +73,7 @@ jobs:
           preserveTimestamp: false
           retryCount: '3'
           delayBetweenRetries: '5000'
-          ignoreMakeDirErrors: false   
+          ignoreMakeDirErrors: false  
 
       - name: PowerShell Script
         uses: Prakasha3007/PowerShell/.github/actions/pshell-actions@main
