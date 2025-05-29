@@ -1,4 +1,4 @@
-name: NPM Main Workflow
+name: Portal-AI-Pipelines
 on:
   push:
     branches:
