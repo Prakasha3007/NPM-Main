@@ -27,7 +27,7 @@ jobs:
         uses: ./.github/actions/npm-actions
         with:
           command: "custom"
-          workingDir: "test-project"
+          workingDir: "test project"
           verbose: true
           customCommand: "t"
           customRegistry: "https://registry.npmjs.org/"
