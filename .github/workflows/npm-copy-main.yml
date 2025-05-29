@@ -15,10 +15,10 @@ jobs:
       - name: NPM Install
         uses: ./.github/actions/npm-actions
         with:
-          command: "install"
+          command: "custom"
           workingDir: "."
           verbose: true
-          customCommand: ""
+          customCommand: "install --no-save"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
@@ -29,7 +29,7 @@ jobs:
           command: "custom"
           workingDir: "."
           verbose: true
-          customCommand: "run build"
+          customCommand: "t"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
