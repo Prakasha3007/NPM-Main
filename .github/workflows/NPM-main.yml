@@ -13,9 +13,9 @@ jobs:
       nexus_password: ${{ secrets.NEXUS_PASSWORD }}  # Pass the secret password
     with:
       runsOn: windows-latest
-      command: "publish"
-      workingDir: "."
+      command: "custom"
+      workingDir: "test project"
       verbose: true
-      customCommand: "run build:fonts"
+      customCommand: "test"
       customRegistry: "https://registry.npmjs.org/"
       #customRegistry: "http://10.0.0.5:8081/repository/npm/"
