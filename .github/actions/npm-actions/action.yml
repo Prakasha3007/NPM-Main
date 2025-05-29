@@ -8,60 +8,29 @@ name: npm reusable workflow
 description: npm action testing
 
 inputs:
-  SourceFolder:
-    description: 'Source folder path'
+  command:
+    description: 'Specifies the NPM command to be executed. Examples: "install" for installing dependencies'
     required: true
     type: string
-  TargetFolder:
-    description: 'Target folder path'
+  workingDir:
+    description: 'Specifies the working directory where the NPM commands will be executed'
     required: true
     type: string
-  contents:
-    description: 'Contents to copy (minimatch patterns)'
+  verbose:
+    description: 'Enables verbose output for NPM commands when set to true. Useful for debugging or detailed logging'
+    required: false
+    type: boolean
+  customCommand:
+    description: 'Specifies a custom NPM command to be executed. This input is mandatory when the command input is set to "custom".'
     required: false
     type: string
-    default: '**'
-  CleanTargetFolder:
-    description: 'Clean target folder before copying'
-    required: false
-    type: boolean
-    default: false
-  overwrite:
-    description: 'Overwrite files in the target folder'
-    required: false
-    type: boolean
-    default: false
-  FlattenFolders:
-    description: 'Flatten folder structure'
-    required: false
-    type: boolean
-    default: false
-  preserveTimestamp:
-    description: 'Preserve target timestamp during copy'
-    required: false
-    type: boolean
-    default: false
-  retryCount:
-    description: 'Retry count for copying files'
+  customRegistry:
+    description: 'Specifies a custom NPM registry URL. If provided, this registry will be configured in the .npmrc file before executing commands'
     required: false
     type: string
-    default: '0'
-  delayBetweenRetries:
-    description: 'Delay between retries in milliseconds'
-    required: false
-    type: string
-    default: '1000'
-  ignoreMakeDirErrors:
-    description: 'Ignore errors during creation of target folder'
-    required: false
-    type: boolean
-    default: false  
 
 runs:
   using: 'composite'
-#  defaults:
-#   run:
-#     working-directory: ${{ inputs.workingDir }}
   steps:     
     - name: Display Nexus Username and Password
       shell: pwsh
@@ -72,37 +41,34 @@ runs:
     - name: NPM Task Header
       shell: pwsh
       run: |
-          # Task Header
-          Write-Host "======================================================================="
-          Write-Host "Task        : npm"
-          Write-Host "Description : Install and publish npm packages, or run an npm command."
-          Write-Host "Version     : v1"
-          Write-Host "======================================================================="
+        # Task Header
+        Write-Host "======================================================================="
+        Write-Host "Task        : npm"
+        Write-Host "Description : Install and publish npm packages, or run an npm command."
+        Write-Host "Version     : v1"
+        Write-Host "======================================================================="
         
-      # Configure NPM for Custom Registry using PowerShell
     - name: Configure NPM for Custom Registry
       working-directory: ${{ inputs.workingDir }}
       if: ${{ inputs.customRegistry != '' }}
       shell: pwsh
       run: |
         try {
-            # Set the custom registry URL
-            Write-Host "Setting NPM registry to ${{ inputs.customRegistry }}"
-            npm config set registry="${{ inputs.customRegistry }}"
+          # Set the custom registry URL
+          Write-Host "Setting NPM registry to ${{ inputs.customRegistry }}"
+          npm config set registry="${{ inputs.customRegistry }}"
   
-            # Set the username and password for the registry
-            Write-Host "Setting username and password for ${{ inputs.customRegistry }}"
+          # Set the username and password for the registry
+          Write-Host "Setting username and password for ${{ inputs.customRegistry }}"
     
-            # Display the current NPM configuration
-            npm config ls
-            Write-Host "NPM configuration completed successfully."
-          
+          # Display the current NPM configuration
+          npm config ls
+          Write-Host "NPM configuration completed successfully."
         } catch {
-            Write-Error "An error occurred while configuring NPM: $_"
-            exit 1
+          Write-Error "An error occurred while configuring NPM: $_"
+          exit 1
         }
   
-       
     - name: Run NPM or Custom Command
       shell: pwsh
       working-directory: ${{ inputs.workingDir }}
