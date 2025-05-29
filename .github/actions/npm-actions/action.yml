@@ -39,7 +39,14 @@ inputs:
 
 runs:
   using: 'composite'
-  steps:     
+  steps:
+    - name: Check installed dependencies
+      shell: pwsh
+      continue-on-error: true
+      run: |
+        Write-Host "After Checkout"
+        npm list --depth=0
+
     - name: Display Nexus Username and Password
       shell: pwsh
       run: |
@@ -76,7 +83,6 @@ runs:
             exit 1
         }
 
-  
     - name: Run NPM or Custom Command
       shell: pwsh
       working-directory: ${{ inputs.workingDir }}
