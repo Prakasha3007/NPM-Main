@@ -32,4 +32,4 @@ jobs:
           customCommand: "run build"
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
