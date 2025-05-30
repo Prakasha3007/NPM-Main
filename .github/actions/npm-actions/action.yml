@@ -44,8 +44,7 @@ runs:
       shell: pwsh
       continue-on-error: true
       run: |
-        Write-Host "After Checkout"
-        npm list --depth=0
+        Write-Host "Environment Variable Value: $env:UMB_UCD_Name"
 
     - name: Display Nexus Username and Password
       shell: pwsh
