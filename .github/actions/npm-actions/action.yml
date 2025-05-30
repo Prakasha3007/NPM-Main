@@ -4,8 +4,8 @@
 # Version : v1
 #########################################################################
 
-name: npm reusable workflow 
-description: npm action testing
+name: npm
+description: Install and publish npm packages, or run an npm command.
 
 inputs:
   command:
