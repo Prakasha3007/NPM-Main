@@ -18,11 +18,11 @@ jobs:
       - name: NPM Install
         uses: ./.github/actions/npm-actions
         with:
-          command: "install"
+          command: "custom"
           workingDir: "."
           verbose: true
           customCommand: "install --no-save"
-          customRegistry: "https://registry.npmjs.org/"
+          customRegistry: "http://10.0.0.5:8081/repository/npm/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}  
  
