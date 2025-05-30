@@ -22,6 +22,15 @@ jobs:
           customRegistry: "https://registry.npmjs.org/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: NPM Install Test Project
+        uses: ./.github/actions/npm-actions
+        with:
+          command: "install"
+          workingDir: "./testproject"
+          verbose: true
+          customCommand: ""
+          customRegistry: "https://registry.npmjs.org/"    
           
       - name: NPM Test
         uses: ./.github/actions/npm-actions
@@ -30,9 +39,7 @@ jobs:
           workingDir: "./testproject"
           verbose: true
           customCommand: "test"
-          customRegistry: "https://registry.npmjs.org/"
-          nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }}     
+          customRegistry: "https://registry.npmjs.org/"    
  
       - name: NPM Build
         uses: ./.github/actions/npm-actions
@@ -41,9 +48,7 @@ jobs:
           workingDir: "."
           verbose: true
           customCommand: "run build"
-          customRegistry: "https://registry.npmjs.org/"
-          nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }} 
+          customRegistry: "https://registry.npmjs.org/" 
           
       - name: Copy Generated Files to 
         #uses: ./.github/actions/npm-actions
