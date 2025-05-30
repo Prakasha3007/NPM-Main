@@ -39,19 +39,7 @@ inputs:
 
 runs:
   using: 'composite'
-  steps:
-    - name: Check installed dependencies
-      shell: pwsh
-      continue-on-error: true
-      run: |
-        Write-Host "Environment Variable Value: $env:UMB_UCD_Name"
-
-    - name: Display Nexus Username and Password
-      shell: pwsh
-      run: |
-        Write-Host "Nexus Username: ${{ inputs.nexus_username }}"
-        Write-Host "Nexus Password: ${{ inputs.nexus_password }}"
-      
+  steps:           
     - name: NPM Task Header
       shell: pwsh
       run: |
