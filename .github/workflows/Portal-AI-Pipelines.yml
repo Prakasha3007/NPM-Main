@@ -5,8 +5,11 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  UMB_UCD_Name: "YourValueHere"
+
 jobs:
-  build:
+  Portal-AI-Pipelines:
     runs-on: self-hosted
     steps:
       - name: Checkout Code
@@ -30,16 +33,7 @@ jobs:
           workingDir: "./testproject"
           verbose: true
           customCommand: ""
-          customRegistry: "https://registry.npmjs.org/"    
-          
-      - name: NPM Test
-        uses: ./.github/actions/npm-actions
-        with:
-          command: "custom"
-          workingDir: "./testproject"
-          verbose: true
-          customCommand: "test"
-          customRegistry: "https://registry.npmjs.org/"    
+          customRegistry: "https://registry.npmjs.org/"   
  
       - name: NPM Build
         uses: ./.github/actions/npm-actions
@@ -51,7 +45,6 @@ jobs:
           customRegistry: "https://registry.npmjs.org/" 
           
       - name: Copy Generated Files to 
-        #uses: ./.github/actions/npm-actions
         uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
         with:
           SourceFolder: sourcefolder
@@ -66,7 +59,6 @@ jobs:
           ignoreMakeDirErrors: false 
 
       - name: Copy Public Files to 
-        #uses: ./.github/actions/npm-actions
         uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
         with:
           SourceFolder: sourcefolder
@@ -89,4 +81,4 @@ jobs:
           script: hostname
           workingFolder: '.'
           errorPreference: Stop
-          ignoreLASTEXITCODE: false   
+          ignoreLASTEXITCODE: false
