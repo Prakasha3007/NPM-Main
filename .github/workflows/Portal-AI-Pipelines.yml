@@ -22,7 +22,7 @@ jobs:
           workingDir: "."
           verbose: true
           customCommand: "install --no-save"
-          customRegistry: "http://10.0.0.5:8081/repository/npm/"
+          customRegistry: "http://10.0.0.5:8081/repository/npm-group/"
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}  
  
@@ -33,7 +33,7 @@ jobs:
           workingDir: "."
           verbose: true
           customCommand: "run build"
-          customRegistry: "http://10.0.0.5:8081/repository/npm/" 
+          customRegistry: "http://10.0.0.5:8081/repository/npm-group/" 
           
       - name: Copy Generated Files to 
         uses: Prakasha3007/Copy-Files/.github/actions/copyfile-actions@main
