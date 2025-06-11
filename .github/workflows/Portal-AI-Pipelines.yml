@@ -20,10 +20,11 @@ jobs:
         run: |
 
           $authString = "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}"
-          $authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
-          npm config set registry="http://10.0.0.5:8081/repository/npm-group/"
-          npm config set //10.0.0.5:8081/repository/npm-group/:_auth=$authBase64
-          npm config ls
+          #$authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
+          $npmrcPath = "${{ github.workspace }}\.npmrc"
+          echo "registry=http://10.0.0.5:8081/repository/npm-group/" > $npmrcPath
+          echo "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64" >> $npmrcPat
+          
 
       - name: Verify .npmrc Path
         shell: pwsh
