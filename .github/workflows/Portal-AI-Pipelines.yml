@@ -20,8 +20,7 @@ jobs:
         run: |
           
           npm config set registry="http://10.0.0.5:8081/repository/npm-group/"
-          npm config set //10.0.0.5:8081/repository/npm-group/:username=${{ secrets.NEXUS_USERNAME }}
-          npm config set //10.0.0.5:8081/repository/npm-group/:password=${{ secrets.NEXUS_PASSWORD }}
+          npm config set //10.0.0.5:8081/repository/npm-group/:_auth=$(echo -n "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" | base64)
  
       - name: NPM Install
         uses: ./.github/actions/npm-actions
