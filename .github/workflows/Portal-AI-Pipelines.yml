@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  UMB_UCD_Name: "YourValueHere"
+  UMB_UCD_Name: "YourValueHere."
 
 jobs:
   Portal-AI-Pipelines:
