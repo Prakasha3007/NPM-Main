@@ -18,9 +18,12 @@ jobs:
       - name: Configure NPM Registry
         shell: pwsh
         run: |
-          
+
+          $authString = "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}"
+          $authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
           npm config set registry="http://10.0.0.5:8081/repository/npm-group/"
-          npm config set //10.0.0.5:8081/repository/npm-group/:_auth=$(echo -n "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}" | base64)
+          npm config set //10.0.0.5:8081/repository/npm-group/:_auth=$authBase64
+          npm config ls
  
       - name: NPM Install
         uses: ./.github/actions/npm-actions
