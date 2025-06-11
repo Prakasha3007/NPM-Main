@@ -22,8 +22,10 @@ jobs:
           $authString = "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}"
           #$authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
           $npmrcPath = "${{ github.workspace }}\.npmrc"
-          echo "registry=http://10.0.0.5:8081/repository/npm-group/" > $npmrcPath
-          echo "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64" >> $npmrcPat
+          #echo "registry=http://10.0.0.5:8081/repository/npm-group/" > $npmrcPath
+          #echo "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64" >> $npmrcPat
+          Set-Content -Path $npmrcPath -Value "registry=http://10.0.0.5:8081/repository/npm-group/"
+          Add-Content -Path $npmrcPath -Value "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64"
           
 
       - name: Verify .npmrc Path
