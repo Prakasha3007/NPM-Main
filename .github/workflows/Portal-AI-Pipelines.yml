@@ -14,6 +14,16 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Configure NPM Registry
+        shell: pwsh
+        run: |
+          #npm config set registry="https://nexusrepository.aws.umb.com/repository/npm-group/"
+          #npm config set //nexusrepository.aws.umb.com/repository/npm-group/:_auth=${{ env.nexus_token }}   
+
+          npm config set registry="http://10.0.0.5:8081/repository/npm-group/"
+          npm config set //10.0.0.5:8081/repository/npm-group/:username=${{ secrets.NEXUS_USERNAME }}
+          npm config set //10.0.0.5:8081/repository/npm-group/:password=${{ secrets.NEXUS_PASSWORD }}
  
       - name: NPM Install
         uses: ./.github/actions/npm-actions
@@ -23,5 +33,5 @@ jobs:
           verbose: true
           customCommand: "install --no-save"
           customRegistry: "http://10.0.0.5:8081/repository/npm-group/"
-          nexus_username: ${{ secrets.NEXUS_USERNAME }}
-          nexus_password: ${{ secrets.NEXUS_PASSWORD }}
+          #nexus_username: ${{ secrets.NEXUS_USERNAME }}
+          #nexus_password: ${{ secrets.NEXUS_PASSWORD }}
