@@ -18,9 +18,7 @@ jobs:
       - name: Configure NPM Registry
         shell: pwsh
         run: |
-          #npm config set registry="https://nexusrepository.aws.umb.com/repository/npm-group/"
-          #npm config set //nexusrepository.aws.umb.com/repository/npm-group/:_auth=${{ env.nexus_token }}   
-
+          
           npm config set registry="http://10.0.0.5:8081/repository/npm-group/"
           npm config set //10.0.0.5:8081/repository/npm-group/:username=${{ secrets.NEXUS_USERNAME }}
           npm config set //10.0.0.5:8081/repository/npm-group/:password=${{ secrets.NEXUS_PASSWORD }}
