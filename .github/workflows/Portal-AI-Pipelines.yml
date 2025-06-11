@@ -15,6 +15,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: config .npmrc
+        shell: pwsh
+        run: |
+            $npmrc_file_path="C:\Users\azureuser\.npmrc"
+            if (Test-Path $npmrc_file_path) {
+              Remove-Item $npmrc_file_path -Force
+              Write-Host "user level .npmrc file removed"
+            }
+            else {
+            Write-Host "$npmrc_file_path does not exist"
+            }   
+
       - name: Configure NPM Registry
         shell: pwsh
         run: |
