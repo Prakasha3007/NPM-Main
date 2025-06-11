@@ -18,14 +18,12 @@ jobs:
       - name: Configure NPM Registry
         shell: pwsh
         run: |
-
           $authString = "${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }}"
-          #$authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
+          $authBase64 = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($authString))
           $npmrcPath = "${{ github.workspace }}\.npmrc"
-          #echo "registry=http://10.0.0.5:8081/repository/npm-group/" > $npmrcPath
-          #echo "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64" >> $npmrcPat
-          Set-Content -Path $npmrcPath -Value "registry=http://10.0.0.5:8081/repository/npm-group/"
-          Add-Content -Path $npmrcPath -Value "//10.0.0.5:8081/repository/npm-group/:_auth=$authBase64"
+
+          npm config set registry "http://10.0.0.5:8081/repository/npm-group/" --userconfig $npmrcPath
+          npm config set //10.0.0.5:8081/repository/npm-group/:_auth $authBase64 --userconfig $npmrcPath
           
 
       - name: Verify .npmrc Path
